@@ -1,28 +1,95 @@
+/* Blog page container */
+.blog-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+
+.blog-page h1 {
+  text-align: center;
+  margin-bottom: 50px;
+  font-size: 2.4rem;
+  color: #2c3e50;
+  font-weight: 600;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.blog-page h1::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: #3498db;
+  border-radius: 2px;
+}
+
+/* Blog grid layout */
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 30px;
+}
+
+/* Blog card styling */
 .blog-card {
   background: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   text-align: left;
-  transition: transform 0.3s;
+  transition: all 0.3s ease;
   position: relative;
-  overflow: visible; /* allow pseudo-element to extend slightly if needed */
-  z-index: 1;         /* ensures card content stays above */
+  overflow: hidden;
+  border-top: 4px solid #3498db;
 }
 
 .blog-card:hover {
   transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
-/* Green bottom border safely inside card */
-.blog-card::after {
-  content: '';
-  position: absolute;
-  bottom: 10px;        /* moves it slightly up inside the card */
-  left: 10px;
-  right: 10px;
-  height: 3px;
-  background: #28a745;
-  border-radius: 1px;
-  z-index: 0;          /* keeps it behind the card content */
+.blog-card h2 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  font-size: 1.4rem;
+  color: #2c3e50;
+  line-height: 1.4;
+}
+
+.date {
+  color: #7f8c8d;
+  font-size: 0.85rem;
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+.excerpt {
+  color: #34495e;
+  line-height: 1.6;
+  margin-bottom: 0;
+  font-size: 0.95rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .blog-grid {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+  
+  .blog-page h1 {
+    font-size: 2rem;
+    margin-bottom: 40px;
+  }
+  
+  .blog-card {
+    padding: 20px;
+  }
 }

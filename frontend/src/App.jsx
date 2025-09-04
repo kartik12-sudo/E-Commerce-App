@@ -6,6 +6,8 @@ import { ProtectedRoute, AdminRoute } from './service/Guard';
 import Navbar from './component/common/Navbar';
 import Footer from './component/common/footer';
 import { CartProvider } from './component/context/CartContext';
+import { ToastContainer } from "react-toastify";   // ✅ added
+import "react-toastify/dist/ReactToastify.css";    // ✅ include CSS once globally
 
 import Home from './component/pages/Home';
 import ProductDetailsPage from './component/pages/ProductDetailsPage';
@@ -29,7 +31,6 @@ import AdminOrdersPage from './component/admin/AdminOrderPage';
 import AdminOrderDetailsPage from './component/admin/AdminOrderDetailsPage';
 import ShopPage from './component/pages/ShopPage';
 
-
 import AboutPage from './component/pages/AboutPage';
 import BlogPage from './component/pages/BlogPage';
 // -- BlogDetailsPage import has been removed --
@@ -45,79 +46,38 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/product/:productId" element={<ProductDetailsPage />} />
           <Route path="/categories" element={<CategoryListPage />} />
-          <Route
-            path="/category/:categoryId"
-            element={<CategoryProductsPage />}
-          />
+          <Route path="/category/:categoryId" element={<CategoryProductsPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/otp" element={<OtpPage />} />
-
           <Route path="/login" element={<LoginPage />} />
 
           {/* Protected User Routes */}
-          <Route
-            path="/profile"
-            element={<ProtectedRoute element={<ProfilePage />} />}
-          />
-          <Route
-            path="/add-address"
-            element={<ProtectedRoute element={<AddressPage />} />}
-          />
-          <Route
-            path="/edit-address"
-            element={<ProtectedRoute element={<AddressPage />} />}
-          />
+          <Route path="/profile" element={<ProtectedRoute element={<ProfilePage />} />} />
+          <Route path="/add-address" element={<ProtectedRoute element={<AddressPage />} />} />
+          <Route path="/edit-address" element={<ProtectedRoute element={<AddressPage />} />} />
           
           <Route path="/shop" element={<ShopPage />} />
 
           {/* Admin Routes */}
-          <Route
-            path="/admin"
-            element={<AdminRoute element={<AdminPage />} />}
-          />
-          <Route
-            path="/admin/categories"
-            element={<AdminRoute element={<AdminCategoryPage />} />}
-          />
-          <Route
-            path="/admin/add-category"
-            element={<AdminRoute element={<AddCategory />} />}
-          />
-          <Route
-            path="/admin/edit-category/:categoryId"
-            element={<AdminRoute element={<EditCategory />} />}
-          />
-          <Route
-            path="/admin/products"
-            element={<AdminRoute element={<AdminProductPage />} />}
-          />
-          <Route
-            path="/admin/add-product"
-            element={<AdminRoute element={<AddProductPage />} />}
-          />
-          <Route
-            path="/admin/edit-product/:productId"
-            element={<AdminRoute element={<EditProductPage />} />}
-          />
-          <Route
-            path="/admin/orders"
-            element={<AdminRoute element={<AdminOrdersPage />} />}
-          />
-          <Route
-            path="/admin/order-details/:itemId"
-            element={<AdminRoute element={<AdminOrderDetailsPage />} />}
-          />
+          <Route path="/admin" element={<AdminRoute element={<AdminPage />} />} />
+          <Route path="/admin/categories" element={<AdminRoute element={<AdminCategoryPage />} />} />
+          <Route path="/admin/add-category" element={<AdminRoute element={<AddCategory />} />} />
+          <Route path="/admin/edit-category/:categoryId" element={<AdminRoute element={<EditCategory />} />} />
+          <Route path="/admin/products" element={<AdminRoute element={<AdminProductPage />} />} />
+          <Route path="/admin/add-product" element={<AdminRoute element={<AddProductPage />} />} />
+          <Route path="/admin/edit-product/:productId" element={<AdminRoute element={<EditProductPage />} />} />
+          <Route path="/admin/orders" element={<AdminRoute element={<AdminOrdersPage />} />} />
+          <Route path="/admin/order-details/:itemId" element={<AdminRoute element={<AdminOrderDetailsPage />} />} />
 
           {/* Static Pages */}
           <Route path="/about" element={<AboutPage />} />
-
-          {/* Blog Listing Only */}
           <Route path="/blog" element={<BlogPage />} />
-
         </Routes>
 
         <Footer />
+        {/* ✅ Global Toast container so toasts work across all pages */}
+        <ToastContainer position="top-center" autoClose={3000} />
       </CartProvider>
     </BrowserRouter>
   );

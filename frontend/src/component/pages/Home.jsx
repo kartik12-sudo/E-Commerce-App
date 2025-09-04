@@ -101,7 +101,7 @@ const Home = () => {
         </div>
         <div className="hhero-image-container">
           <img
-            src="/HomePage.png"
+            src="/HomePage.jpg"
             alt="Electronics Collection"
             loading="lazy"
             className="hhero-background-image"
@@ -182,7 +182,7 @@ const Home = () => {
               {visibleProducts.map((product) => (
                 <div key={product.id} className="scroll-product-item">
                   <img
-                    src={product.imageUrl || "/placeholder.png"}
+                    src={product.imageUrl || "/imagee.png"}
                     alt={product.name}
                     loading="lazy"
                   />

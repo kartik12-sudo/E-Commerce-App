@@ -134,7 +134,7 @@ export default class ApiService {
     static async getOrderItemById(itemId) {
         const response = await axios.get(`${this.BASE_URL}/order/filter`, {
             headers: this.getHeader(),
-            params: {itemId}
+            params: { itemId }
         })
         return response.data;
     }
@@ -142,7 +142,7 @@ export default class ApiService {
     static async getAllOrderItemsByStatus(status) {
         const response = await axios.get(`${this.BASE_URL}/order/filter`, {
             headers: this.getHeader(),
-            params: {status}
+            params: { status }
         })
         return response.data;
     }
@@ -150,7 +150,7 @@ export default class ApiService {
     static async updateOrderitemStatus(orderItemId, status) {
         const response = await axios.put(`${this.BASE_URL}/order/update-item-status/${orderItemId}`, {}, {
             headers: this.getHeader(),
-            params: {status}
+            params: { status }
         })
         return response.data;
     }
@@ -167,20 +167,36 @@ export default class ApiService {
     }
 
     /***AUTHEMNTICATION CHECKER */
-    static logout(){
+    static logout() {
         localStorage.removeItem('token')
         localStorage.removeItem('role')
     }
 
-    static isAuthenticated(){
+    static isAuthenticated() {
         const token = localStorage.getItem('token')
         return !!token
     }
 
-    static isAdmin(){
+    static isAdmin() {
         const role = localStorage.getItem('role')
         return role === 'ADMIN'
     }
+
+    /** OTP Verification */
+    static async verifyOtp({ email, otp }) {
+        const response = await axios.post(
+            `${this.BASE_URL}/otp/verify`,
+            null, // no body, only query params
+            {
+                params: {
+                    email: email,
+                    otpCode: otp
+                }
+            }
+        );
+        return response.data;
+    }
+
 
 
 
