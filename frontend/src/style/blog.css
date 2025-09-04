@@ -1,0 +1,28 @@
+.blog-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  text-align: left;
+  transition: transform 0.3s;
+  position: relative;
+  overflow: visible; /* allow pseudo-element to extend slightly if needed */
+  z-index: 1;         /* ensures card content stays above */
+}
+
+.blog-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Green bottom border safely inside card */
+.blog-card::after {
+  content: '';
+  position: absolute;
+  bottom: 10px;        /* moves it slightly up inside the card */
+  left: 10px;
+  right: 10px;
+  height: 3px;
+  background: #28a745;
+  border-radius: 1px;
+  z-index: 0;          /* keeps it behind the card content */
+}
