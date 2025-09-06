@@ -1,0 +1,168 @@
+/* Footer Styles */
+.electronics-footer {
+  background: #f8f9fa;
+  color: #333333;
+  position: relative;
+  padding-top: 40px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.footer-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.footer-section {
+  margin-bottom: 1.5rem;
+}
+
+.footer-title {
+  display: flex;
+  align-items: center;
+  color: #002c5c;
+  font-size: 1.1rem;
+  margin-bottom: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+.footer-title .icon {
+  margin-right: 10px;
+  font-size: 1.2rem;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section li {
+  margin-bottom: 0.8rem;
+}
+
+.footer-section a {
+  color: #666666;
+  text-decoration: none;
+  transition: color 0.3s;
+  font-size: 0.9rem;
+}
+
+.footer-section a:hover {
+  color: #002853;
+}
+
+.newsletter {
+  margin-bottom: 1.5rem;
+}
+
+.newsletter p {
+  color: #666666;
+  margin-bottom: 0.8rem;
+  font-size: 0.9rem;
+}
+
+.newsletter form {
+  display: flex;
+}
+
+.newsletter input {
+  flex: 1;
+  padding: 0.6rem;
+  border: 1px solid #e0e0e0;
+  background: #ffffff;
+  color: #333333;
+  border-radius: 4px 0 0 4px;
+  outline: none;
+}
+
+.newsletter input:focus {
+  border-color: #002246;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.newsletter button {
+  background: #012f61;
+  color: white;
+  border: none;
+  padding: 0 1rem;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.newsletter button:hover {
+  background: #002e5f;
+}
+
+.social-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-links a {
+  color: #666666;
+  font-size: 1.2rem;
+  transition: color 0.3s;
+}
+
+.social-links a:hover {
+  color: #002c5b;
+}
+
+.footer-bottom {
+  background: #e9ecef;
+  padding: 1.5rem;
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.tech-grid {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.grid-item {
+  background: rgba(0, 123, 255, 0.1);
+  color: #012d5c;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border: 1px solid rgba(0, 123, 255, 0.2);
+}
+
+.footer-bottom p {
+  color: #666666;
+  font-size: 0.8rem;
+  margin-top: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 1.5rem;
+  }
+  
+  .footer-title {
+    justify-content: center;
+  }
+  
+  .tech-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .tech-grid .grid-item {
+    width: 80%;
+  }
+}
