@@ -1,46 +1,46 @@
-.category-list{
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 80px rgba(0, 9, 9, 0.01);
+/* Make category list responsive */
+.category-list {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  padding-left: 5%;
+  padding-right: 5%;
 }
 
-.category-list h2{
-    font-size: 2rem;
-    margin-bottom: 20px;
-    color: #333;
-    text-align: center;
+/* Make list items wrap on smaller screens */
+.category-list ul {
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
 }
 
-.category-list ul{
-    list-style-type: none;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
+/* Adjust li width for smaller screens */
+.category-list li {
+  flex: 1 1 calc(33.33% - 20px);
+  max-width: calc(33.33% - 20px);
+  min-width: 150px; /* ensures buttons don’t shrink too much */
 }
 
-.category-list li{
-    flex:  1 1 calc(33.33% - 20px);
-    max-width: calc(33.33% - 20px);
-}
-.category-list button{
-    width: 100%;
-    padding: 15px;
-    font-size: 1.2rem;
-    background-color: #f68b1e;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3 ease;
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .category-list li {
+    flex: 1 1 calc(50% - 15px);
+    max-width: calc(50% - 15px);
+  }
 }
 
-.error-message{
-    color: red;
-    text-align: center;
-    font-size: 1.2em;
-    margin-top: 20px;
+@media (max-width: 576px) {
+  .category-list li {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+
+  .category-list h2 {
+    font-size: 1.5rem;
+  }
+
+  .category-list button {
+    font-size: 1rem;
+    padding: 12px;
+  }
 }

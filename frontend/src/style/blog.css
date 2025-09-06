@@ -1,4 +1,4 @@
-/* Blog page container */
+/* =================== Blog Page Container =================== */
 .blog-page {
   max-width: 1200px;
   margin: 0 auto;
@@ -6,12 +6,15 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #f8f9fa;
   min-height: 100vh;
+  box-sizing: border-box;
+  width: 100%;
 }
 
+/* Blog Page Heading */
 .blog-page h1 {
   text-align: center;
   margin-bottom: 50px;
-  font-size: 2.4rem;
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
   color: #2c3e50;
   font-weight: 600;
   position: relative;
@@ -30,14 +33,15 @@
   border-radius: 2px;
 }
 
-/* Blog grid layout */
+/* Blog Grid Layout */
 .blog-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 30px;
+  width: 100%;
 }
 
-/* Blog card styling */
+/* Blog Card Styling */
 .blog-card {
   background: #fff;
   padding: 25px;
@@ -48,6 +52,8 @@
   position: relative;
   overflow: hidden;
   border-top: 4px solid #3498db;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .blog-card:hover {
@@ -55,41 +61,81 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
+/* Blog Card Heading */
 .blog-card h2 {
   margin-top: 0;
   margin-bottom: 12px;
-  font-size: 1.4rem;
+  font-size: clamp(1.2rem, 2.5vw, 1.4rem);
   color: #2c3e50;
   line-height: 1.4;
 }
 
+/* Blog Date */
 .date {
   color: #7f8c8d;
-  font-size: 0.85rem;
+  font-size: clamp(0.75rem, 1.5vw, 0.85rem);
   margin-bottom: 15px;
   font-weight: 500;
 }
 
+/* Blog Excerpt */
 .excerpt {
   color: #34495e;
   line-height: 1.6;
   margin-bottom: 0;
-  font-size: 0.95rem;
+  font-size: clamp(0.85rem, 1.8vw, 0.95rem);
 }
 
-/* Responsive design */
+/* Responsive Design for Tablets and Mobile */
+@media (max-width: 1024px) {
+  .blog-grid {
+    gap: 25px;
+  }
+
+  .blog-card {
+    padding: 20px;
+  }
+}
+
 @media (max-width: 768px) {
   .blog-grid {
     grid-template-columns: 1fr;
-    gap: 25px;
+    gap: 20px;
   }
-  
+
   .blog-page h1 {
     font-size: 2rem;
     margin-bottom: 40px;
   }
-  
+
   .blog-card {
-    padding: 20px;
+    padding: 18px;
+  }
+}
+
+@media (max-width: 576px) {
+  .blog-page {
+    padding: 20px 10px;
+  }
+
+  .blog-page h1 {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+  }
+
+  .blog-card {
+    padding: 15px;
+  }
+
+  .blog-card h2 {
+    font-size: 1.2rem;
+  }
+
+  .date {
+    font-size: 0.8rem;
+  }
+
+  .excerpt {
+    font-size: 0.85rem;
   }
 }

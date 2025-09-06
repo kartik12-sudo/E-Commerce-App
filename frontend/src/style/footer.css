@@ -14,6 +14,7 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
+  box-sizing: border-box;
 }
 
 .footer-section {
@@ -29,6 +30,7 @@
   text-transform: uppercase;
   letter-spacing: 1px;
   font-weight: 600;
+  flex-wrap: wrap;
 }
 
 .footer-title .icon {
@@ -39,6 +41,7 @@
 .footer-section ul {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .footer-section li {
@@ -68,6 +71,7 @@
 
 .newsletter form {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .newsletter input {
@@ -78,6 +82,7 @@
   color: #333333;
   border-radius: 4px 0 0 4px;
   outline: none;
+  min-width: 120px;
 }
 
 .newsletter input:focus {
@@ -93,6 +98,7 @@
   border-radius: 0 4px 4px 0;
   cursor: pointer;
   transition: background 0.3s;
+  margin-top: 5px;
 }
 
 .newsletter button:hover {
@@ -102,6 +108,8 @@
 .social-links {
   display: flex;
   gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .social-links a {
@@ -137,12 +145,14 @@
   font-size: 0.8rem;
   font-weight: 500;
   border: 1px solid rgba(0, 123, 255, 0.2);
+  white-space: nowrap;
 }
 
 .footer-bottom p {
   color: #666666;
   font-size: 0.8rem;
   margin-top: 1rem;
+  word-wrap: break-word;
 }
 
 /* Responsive Design */
@@ -151,6 +161,7 @@
     grid-template-columns: 1fr;
     text-align: center;
     gap: 1.5rem;
+    padding: 1.5rem;
   }
   
   .footer-title {
@@ -164,5 +175,16 @@
   
   .tech-grid .grid-item {
     width: 80%;
+  }
+  
+  .newsletter form {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .newsletter button {
+    margin-top: 0;
+    width: 100%;
+    border-radius: 4px;
   }
 }

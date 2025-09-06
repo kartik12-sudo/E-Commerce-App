@@ -1,50 +1,113 @@
+/* =================== Admin Category Page =================== */
 .admin-category-page {
     max-width: 800px;
     margin: 0 auto 50px auto;
-}
-.admin-category-list{
-    border-radius: 5px;
-    padding: 20px;
+    padding: 0 10px;
+    box-sizing: border-box;
 }
 
-.admin-category-list h2{
-    font-size: 25px;
-    margin-bottom: 20px;
+/* Category List Container */
+.admin-category-list {
+    border-radius: 5px;
+    padding: 20px;
+    box-sizing: border-box;
 }
-.admin-category-list button{
+
+/* Heading */
+.admin-category-list h2 {
+    font-size: clamp(1.8rem, 4vw, 25px);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Add Category Button */
+.admin-category-list button {
     background-color: #f68b1e;
     color: #fff;
-    font-size: 20px;
+    font-size: clamp(1rem, 2vw, 20px);
     border: none;
     padding: 10px 15px;
     margin-bottom: 10px;
     cursor: pointer;
     border-radius: 4px;
+    transition: background 0.3s ease;
 }
-.admin-category-list button:hover{
+
+.admin-category-list button:hover {
     background-color: #a25d19;
 }
 
-.admin-category-list ul li{
+/* Category Items */
+.admin-category-list ul li {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     padding: 10px 10px 10px 15px;
     margin-bottom: 1.5px;
     border-radius: 5px;
     border: 1px solid #ccc;
-}
-.admin-category-list ul li span{
-    color: #444;
+    box-sizing: border-box;
 }
 
-.admin-bt button{
+.admin-category-list ul li span {
+    color: #444;
+    flex: 1 1 150px;
+    word-break: break-word;
+}
+
+/* Action Buttons */
+.admin-bt button {
     background-color: tomato;
     color: #fff;
-    border: 8px 16px;
+    padding: 8px 16px;
     cursor: pointer;
     margin-left: 10px;
+    border-radius: 4px;
+    border: none;
+    font-size: 0.9rem;
+    transition: background 0.3s ease;
 }
-.admin-bt .admin-btn-edit{
+
+.admin-bt .admin-btn-edit {
     background-color: #f68b1e;
+}
+
+.admin-bt button:hover {
+    opacity: 0.9;
+}
+
+/* =================== Responsive Design =================== */
+@media (max-width: 1024px) {
+    .admin-category-page {
+        width: 90%;
+    }
+    .admin-category-list ul li {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    .admin-bt button {
+        margin-left: 0;
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-category-page {
+        width: 95%;
+    }
+    .admin-category-list button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .admin-category-list h2 {
+        font-size: 1.5rem;
+    }
+    .admin-bt button {
+        font-size: 0.85rem;
+        padding: 8px 12px;
+    }
 }

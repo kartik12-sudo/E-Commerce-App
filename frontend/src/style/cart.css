@@ -1,74 +1,78 @@
-.cart-page *{
-    color: #444;
-
-}
+/* Make cart page responsive */
 .cart-page {
-    max-width: 800px;
-    margin: 0 auto 10rem auto;
-    padding: 20px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  padding-left: 5%;
+  padding-right: 5%;
 }
 
-.cart-page ul{
-    list-style-type: none;
-    padding: 0;
+/* Make cart items wrap on smaller screens */
+.cart-page li {
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
-.cart-page li{
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-bottom: 20px;
+/* Make images scale on smaller screens */
+.cart-page img {
+  width: 100%;
+  max-width: 80px;
+  height: auto;
+  margin-right: 0;
+  margin-bottom: 10px;
+}
+
+/* Stack quantity controls and content on small screens */
+.quantity-controls {
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 5px;
+}
+
+/* Checkout button full width on small screens */
+.checkout-button {
+  width: 100%;
+  max-width: 100%;
+  padding: 15px 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .cart-page li {
+    flex-direction: column;
+    align-items: flex-start;
     padding: 10px;
-    display: flex;
-    align-items: center;
+  }
+
+  .quantity-controls button {
+    padding: 5px 8px;
+    font-size: 1em;
+  }
+
+  .response-message {
+    font-size: 1.5rem;
+  }
 }
 
-.cart-page img{
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 5px;
-    margin-right: 20px;
-}
+@media (max-width: 576px) {
+  .cart-page li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
-.quantity-controls{
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.quantity-controls button{
-    background-color: #f68b1e;
-    color: white;
-    border: none;
-    border-radius: 3px;
-    padding: 5px 10px;
-    cursor: pointer;
-    font-size: 1.2em;
-}
-.quantity-controls button:hover {
-    background-color: #93500d;
-}
+  .cart-page img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+  }
 
-.checkout-button{
-    background-color: #f68b1e;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 20px 20px;
-    font-size: 1.2em;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    display: block;
-    margin: 20px auto 0;
-    width: 99%;
-}
+  .quantity-controls {
+    width: 100%;
+    justify-content: flex-start;
+  }
 
-.checkout-button:hover{
-    background-color: #93500d;
-
-}
-.response-message{
-    color: #f68b1e;
-    font-size: 25px;
-    font-weight: 700;
-    text-align: center;
+  .checkout-button {
+    font-size: 1rem;
+    padding: 12px 0;
+  }
 }

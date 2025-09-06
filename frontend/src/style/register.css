@@ -1,4 +1,4 @@
-/* Shared Styles for Both Login and Register Pages */
+/* ===== Shared Styles for Login/Register Pages ===== */
 .login-container, .register-page {
   min-height: 100vh;
   display: flex;
@@ -14,8 +14,8 @@
   background: white;
   border-radius: 16px;
   padding: 40px;
-  width: 100%;
-  max-width: 450px;
+  width: 90%;         /* responsive width */
+  max-width: 450px;   /* limit on large screens */
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   border: 1px solid #e2e8f0;
   position: relative;
@@ -23,14 +23,8 @@
 }
 
 @keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* Back Button */
@@ -59,14 +53,12 @@
 /* Header */
 .login-header, .register-page h2 {
   text-align: center;
-  margin-bottom: 30px;
-  margin-top: 20px;
+  margin: 20px 0 30px;
 }
 
 .login-header h2, .register-page h2 {
   font-size: 2.2rem;
   font-weight: 700;
-  margin-bottom: 10px;
   color: #1e293b;
 }
 
@@ -112,7 +104,7 @@
 }
 
 .register-page input {
-  padding: 15px; /* Remove left padding for register page inputs */
+  padding-left: 15px;
 }
 
 .input-group input:focus, .register-page input:focus {
@@ -219,7 +211,7 @@
   100% { transform: rotate(360deg); }
 }
 
-/* Register Link / Login Link */
+/* Links */
 .register-link, .login-link {
   text-align: center;
   margin-top: 20px;
@@ -244,7 +236,7 @@
   text-decoration: underline;
 }
 
-/* Login Footer */
+/* Footer */
 .login-footer {
   text-align: center;
   margin-top: 30px;
@@ -269,68 +261,83 @@
   border: 1px solid #fecaca;
 }
 
-/* Labels for Register Page */
+/* Labels */
 .register-page label {
   font-weight: 600;
   color: #374151;
   margin-bottom: 5px;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .login-container, .register-page {
-    padding: 10px;
-  }
-  
+/* ===== Responsive Breakpoints ===== */
+
+/* Large Screens (laptops) */
+@media (min-width: 1025px) {
   .login-card, .register-page {
+    max-width: 500px;
+    padding: 45px;
+  }
+  .login-header h2, .register-page h2 {
+    font-size: 2.4rem;
+  }
+}
+
+/* Tablets */
+@media (max-width: 1024px) {
+  .login-card, .register-page {
+    max-width: 400px;
+    padding: 35px;
+  }
+  .login-header h2, .register-page h2 {
+    font-size: 2rem;
+  }
+}
+
+/* Small Tablets / Large Phones */
+@media (max-width: 768px) {
+  .login-card, .register-page {
+    max-width: 350px;
     padding: 30px 25px;
   }
-  
   .login-header h2, .register-page h2 {
     font-size: 1.8rem;
   }
-  
-  .login-header p {
-    font-size: 0.9rem;
-  }
-  
   .input-group input, .register-page input {
     padding: 12px 12px 12px 40px;
+    font-size: 15px;
   }
-  
   .register-page input {
     padding: 12px;
   }
-  
   .login-button, .register-page button {
     padding: 14px;
     font-size: 16px;
   }
 }
 
+/* Phones */
 @media (max-width: 480px) {
   .login-card, .register-page {
     padding: 25px 20px;
     border-radius: 12px;
   }
-  
   .login-header h2, .register-page h2 {
     font-size: 1.6rem;
   }
-  
   .back-button {
     top: 15px;
     left: 15px;
     font-size: 12px;
     padding: 6px 12px;
   }
-  
   .input-group input, .register-page input {
-    padding: 12px 12px 12px 40px;
+    padding: 10px 12px 10px 40px;
     font-size: 14px;
   }
-  
   .register-page input {
+    padding: 10px;
+  }
+  .login-button, .register-page button {
+    font-size: 15px;
     padding: 12px;
   }
 }

@@ -1,58 +1,93 @@
-.order-details-page{
+/* =================== Order Details Page =================== */
+.order-details-page {
     padding: 20px;
     width: 50%;
     margin: auto;
     margin-bottom: 100px;
+    box-sizing: border-box;
+    max-width: 100%;
 }
-.order-details-page h2{
+
+/* Heading */
+.order-details-page h2 {
     text-align: center;
     font-weight: 700;
+    font-size: clamp(1.8rem, 4vw, 28px);
 }
-.message{
+
+/* Messages */
+.message {
     text-align: center;
     margin-bottom: 20px;
+    font-size: clamp(1rem, 2vw, 16px);
 }
-.order-item-details{
+
+/* Order Item Details */
+.order-item-details {
     border: 1px solid #ddd;
     padding: 20px;
     margin-bottom: 20px;
+    border-radius: 5px;
+    box-sizing: border-box;
 }
 
-.info, .status-change{
+/* Info & Status Change Sections */
+.info, .status-change {
     margin-bottom: 20px;
 }
-.info p{
+
+.info p {
     margin: 5px 0;
+    font-size: clamp(0.9rem, 1.5vw, 1rem);
 }
-.status-option{
+
+/* Status Option */
+.status-option {
     padding: 10px;
+    font-size: clamp(0.9rem, 1.5vw, 1rem);
 }
-.update-status-button{
+
+/* Update Status Button */
+.update-status-button {
     background-color: #f68b1e;
     color: #fff;
     margin-left: 10px;
     padding: 10px;
     font-weight: 800;
-    font-size: 15px;
+    font-size: clamp(0.85rem, 1.5vw, 15px);
     border: none;
     border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
 }
-.update-status-button:hover{
+
+.update-status-button:hover {
     background-color: #b77029;
 }
 
+/* =================== Responsive Design =================== */
+@media (max-width: 1024px) {
+    .order-details-page {
+        width: 70%;
+    }
+}
 
+@media (max-width: 768px) {
+    .order-details-page {
+        width: 90%;
+    }
+    .update-status-button {
+        width: 100%;
+        margin: 10px 0 0 0;
+    }
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+@media (max-width: 576px) {
+    .order-details-page {
+        width: 100%;
+        padding: 15px 10px;
+    }
+    .info p, .status-option {
+        font-size: 0.9rem;
+    }
+}

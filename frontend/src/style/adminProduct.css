@@ -1,53 +1,104 @@
-.admin-product-list{
+/* =================== Admin Product List =================== */
+.admin-product-list {
     align-items: center;
     width: 50%;
     margin: auto;
     font-size: 16px;
+    box-sizing: border-box;
+    max-width: 100%;
+    padding: 0 10px;
 }
-.product-btn{
+
+/* Buttons */
+.product-btn,
+.product-btn-delete {
     border-radius: 5px;
     margin: 5px 0px;
     padding: 10px;
     font-weight: 700;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 1.1rem;
     color: #fff;
     border: none;
+    transition: all 0.3s ease;
+    min-width: 100px;
+}
+
+.product-btn {
     background-color: #f68b1e;
 }
 
-.product-btn-delete{
-    border-radius: 5px;
-    margin: 5px 0px;
-    padding: 10px;
-    font-weight: 700;
-    cursor: pointer;
-    font-size: 18px;
-    color: #fff;
-    border: none;
+.product-btn-delete {
     background-color: tomato;
-
 }
-.admin-product-list button:hover{
+
+.admin-product-list button:hover {
     background-color: #a66320;
 }
-.admin-product-list ul{
+
+/* List */
+.admin-product-list ul {
     list-style-type: none;
     padding: 0;
+    margin: 0;
 }
-.admin-product-list li{
+
+.admin-product-list li {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     padding: 10px 10px 10px 15px;
     margin-bottom: 1.5px;
     border-radius: 5px;
     border: 1px solid #ddd;
+    box-sizing: border-box;
 }
-.admin-product-list span{
-    flex: 1;
+
+.admin-product-list span {
+    flex: 1 1 150px;
     color: #444;
+    word-break: break-word;
 }
-.admin-product-list button{
+
+.admin-product-list button {
     margin-left: 10px;
+    flex: 0 0 auto;
+}
+
+/* =================== Responsive Design =================== */
+@media (max-width: 1024px) {
+    .admin-product-list {
+        width: 70%;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-product-list {
+        width: 90%;
+    }
+
+    .admin-product-list li {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+
+    .admin-product-list button {
+        margin-left: 0;
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .admin-product-list {
+        width: 100%;
+        padding: 0 5px;
+    }
+
+    .product-btn,
+    .product-btn-delete {
+        font-size: 1rem;
+        padding: 8px;
+    }
 }

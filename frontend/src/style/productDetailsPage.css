@@ -1,40 +1,89 @@
-.product-detail{
-    max-width: 350px;
-    margin: 10rem auto 10rem auto;
+.product-detail {
+    max-width: 90%;         /* responsive width */
+    width: 350px;            /* default for desktop */
+    margin: 10rem auto;      
     padding: 15px;
     border: 1px solid #ccc;
     border-radius: 10px;
-    align-items: center;
-
     display: flex;
     flex-direction: column;
     gap: 16px;
+    align-items: center;
+    box-sizing: border-box;
 }
 
-.product-detail img{
-    width: 350px;
+.product-detail img {
+    width: 100%;            /* scales with container */
     height: auto;
+    border-radius: 8px;
 }
 
-.product-detail h1{
+.product-detail h1 {
     text-align: center;
+    font-size: 1.8rem;
 }
-.product-detail span{
+
+.product-detail span {
     display: block;
-    font-size: 20px;
+    font-size: 1.2rem;
     color: #f68b1e;
 }
-.product-detail button{
+
+.product-detail button {
     display: block;
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     border: none;
     border-radius: 5px;
     background-color: #f68b1e;
     color: white;
-    font-size: 16px;
+    font-size: 1rem;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
-.product-detail button:hover{
+
+.product-detail button:hover {
     background-color: #8b4c0d;
+}
+
+/* ===== Responsive Breakpoints ===== */
+
+/* Tablets */
+@media (max-width: 1024px) {
+    .product-detail {
+        margin: 6rem auto;
+        width: 300px;
+        gap: 14px;
+        padding: 12px;
+    }
+    .product-detail h1 {
+        font-size: 1.6rem;
+    }
+    .product-detail span {
+        font-size: 1.1rem;
+    }
+    .product-detail button {
+        font-size: 0.95rem;
+        padding: 10px;
+    }
+}
+
+/* Phones */
+@media (max-width: 480px) {
+    .product-detail {
+        margin: 3rem auto;
+        width: 95%;
+        padding: 10px;
+        gap: 12px;
+    }
+    .product-detail h1 {
+        font-size: 1.4rem;
+    }
+    .product-detail span {
+        font-size: 1rem;
+    }
+    .product-detail button {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
 }
