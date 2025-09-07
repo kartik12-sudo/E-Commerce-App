@@ -1,20 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import '../../style/adminOrderPage.css'
+import '../../style/adminOrderPage.css';
 import Pagination from "../common/Pagination";
 import ApiService from "../../service/ApiService";
 
-
 const OrderStatus = ["PENDING", "CONFIRMED", "SHIPPED", "DELIVERED", "CANCELLED", "RETURNED"];
 
-
 const AdminOrdersPage = () => {
-
     const [orders, setOrders] = useState([]);
     const [filteredOrders, setFilteredOrders] = useState([]);
     const [statusFilter, setStatusFilter] = useState('');
     const [searchStatus, setSearchStatus] = useState('');
-
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(0);
     const [error, setError] = useState(null);
@@ -22,85 +18,79 @@ const AdminOrdersPage = () => {
 
     const navigate = useNavigate();
 
-    useEffect(() => {
-        fetchOrders();
-    }, [searchStatus, currentPage]);
-
-
-
-    const fetchOrders = async () => {
-
+    // Fetch orders safely with useCallback
+    const fetchOrders = useCallback(async () => {
         try {
             let response;
-            if(searchStatus){
+            if (searchStatus) {
                 response = await ApiService.getAllOrderItemsByStatus(searchStatus);
-            }else{
+            } else {
                 response = await ApiService.getAllOrders();
             }
+
             const orderList = response.orderItemList || [];
-
-            setTotalPages(Math.ceil(orderList.length/itemsPerPage));
+            setTotalPages(Math.ceil(orderList.length / itemsPerPage));
             setOrders(orderList);
-            setFilteredOrders(orderList.slice((currentPage -1) * itemsPerPage, currentPage * itemsPerPage));
+            setFilteredOrders(orderList.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage));
 
-
-        } catch (error) {
-            setError(error.response?.data?.message || error.message || 'unable to fetch orders')
-            setTimeout(()=>{
-                setError('')
-            }, 3000)
+        } catch (err) {
+            setError(err.response?.data?.message || err.message || 'Unable to fetch orders');
+            setTimeout(() => setError(''), 3000);
         }
-    }
+    }, [searchStatus, currentPage]);
 
-    const handleFilterChange = (e) =>{
+    useEffect(() => {
+        fetchOrders();
+    }, [fetchOrders]);
+
+    const handleFilterChange = (e) => {
         const filterValue = e.target.value;
-        setStatusFilter(filterValue)
+        setStatusFilter(filterValue);
         setCurrentPage(1);
 
         if (filterValue) {
             const filtered = orders.filter(order => order.status === filterValue);
             setFilteredOrders(filtered.slice(0, itemsPerPage));
             setTotalPages(Math.ceil(filtered.length / itemsPerPage));
-        }else{
+        } else {
             setFilteredOrders(orders.slice(0, itemsPerPage));
             setTotalPages(Math.ceil(orders.length / itemsPerPage));
         }
-    }
+    };
 
-
-    const handleSearchStatusChange = async (e) => {
+    const handleSearchStatusChange = (e) => {
         setSearchStatus(e.target.value);
         setCurrentPage(1);
-    }
+    };
 
     const handleOrderDetails = (id) => {
-        navigate(`/admin/order-details/${id}`)
-    }
-
+        navigate(`/admin/order-details/${id}`);
+    };
 
     return (
         <div className="admin-orders-page">
             <h2>Orders</h2>
             {error && <p className="error-message">{error}</p>}
+
             <div className="filter-container">
                 <div className="statusFilter">
-                    <label >Filter By Status</label>
+                    <label>Filter By Status</label>
                     <select value={statusFilter} onChange={handleFilterChange}>
                         <option value="">All</option>
-                        {OrderStatus.map(status=>(
+                        {OrderStatus.map(status => (
                             <option key={status} value={status}>{status}</option>
                         ))}
                     </select>
                 </div>
+
                 <div className="searchStatus">
-                <label>Search By Status</label>
+                    <label>Search By Status</label>
                     <select value={searchStatus} onChange={handleSearchStatusChange}>
                         <option value="">All</option>
-                        {OrderStatus.map(status=>(
+                        {OrderStatus.map(status => (
                             <option key={status} value={status}>{status}</option>
                         ))}
                     </select>
-
                 </div>
             </div>
 
@@ -115,7 +105,6 @@ const AdminOrdersPage = () => {
                         <th>Actions</th>
                     </tr>
                 </thead>
-
                 <tbody>
                     {filteredOrders.map(order => (
                         <tr key={order.id}>
@@ -125,20 +114,20 @@ const AdminOrdersPage = () => {
                             <td>${order.price.toFixed(2)}</td>
                             <td>{new Date(order.createdAt).toLocaleDateString()}</td>
                             <td>
-                                <button onClick={()=> handleOrderDetails(order.id)}>Details</button>
+                                <button onClick={() => handleOrderDetails(order.id)}>Details</button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
-
             </table>
 
             <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={(page)=> setCurrentPage(page)}/>
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={(page) => setCurrentPage(page)}
+            />
         </div>
-    )
-}
+    );
+};
 
 export default AdminOrdersPage;
