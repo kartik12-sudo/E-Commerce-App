@@ -33,6 +33,9 @@ public class User {
     @NotBlank(message = "Phone number is required")
     private String phoneNumber;
 
+    // ✅ Store enum as INT (0 = USER, 1 = ADMIN)
+    @Enumerated(EnumType.ORDINAL)
+    @Column(nullable = false)
     private UserRole role;
 
     @Column(nullable = false)

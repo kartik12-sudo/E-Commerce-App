@@ -178,9 +178,11 @@ export default class ApiService {
     }
 
     static isAdmin() {
-        const role = localStorage.getItem('role')
-        return role === 'ADMIN'
+        const role = localStorage.getItem('role');
+        if (!role) return false;
+        return role.toUpperCase() === 'ADMIN' || role === '1';
     }
+
 
     /** OTP Verification */
     static async verifyOtp({ email, otp }) {

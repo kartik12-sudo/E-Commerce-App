@@ -1,5 +1,4 @@
 // src/component/pages/Home.jsx
-
 import React, { useEffect, useState, useCallback } from "react";
 import { useLocation, Link } from "react-router-dom";
 import {
@@ -13,7 +12,9 @@ import {
   FaVolumeUp,
   FaHeadphones,
   FaArrowRight,
-  FaSearch
+  FaSearch,
+  FaChevronLeft,
+  FaChevronRight
 } from "react-icons/fa";
 import { FiWatch } from "react-icons/fi";
 import ProductList from "../common/ProductList";
@@ -36,6 +37,31 @@ const categories = [
   { id: 10, name: "Speakers", Icon: FaVolumeUp, color: "#14b8a6" },
 ];
 
+// Slideshow data
+const heroSlides = [
+  {
+    id: 1,
+    
+    image: "/i.jpg",
+    ctaText: "Shop Now",
+    ctaLink: "/shop"
+  },
+  {
+    id: 2,
+    
+    image: "/image2.png", 
+    ctaText: "View Deals",
+    ctaLink: "/shop"
+  },
+  {
+    id: 3,
+    
+    image: "/image1.png", 
+    ctaText: "Explore New",
+    ctaLink: "/shop"
+  }
+];
+
 const Home = () => {
   const { search } = useLocation();
   const [allProducts, setAllProducts] = useState([]);
@@ -44,6 +70,28 @@ const Home = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  // Auto-advance slideshow
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 5000); // Change slide every 5 seconds
+    
+    return () => clearInterval(interval);
+  }, []);
+
+  const goToSlide = (index) => {
+    setCurrentSlide(index);
+  };
+
+  const goToNextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+  };
+
+  const goToPrevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
+  };
 
   const fetchProducts = useCallback(async () => {
     setLoading(true);
@@ -87,26 +135,53 @@ const Home = () => {
 
   return (
     <div className="home-page">
-      {/* Hero Section */}
+      {/* Hero Section with Slideshow */}
       <section className="hhero-section">
-        <div className="hhero-content">
-          <div className="hhero-text">
-            <h1>Next-Gen Electronics for Modern Living</h1>
-            <p>
-              Discover the latest tech innovations with premium quality and unbeatable
-              prices
-            </p>
-            
+        <div className="hhero-slideshow">
+          {heroSlides.map((slide, index) => (
+            <div 
+              key={slide.id}
+              className={`hhero-slide ${index === currentSlide ? 'active' : ''}`}
+            >
+              <div className="hhero-content">
+                <div className="hhero-text">
+                  <h1>{slide.title}</h1>
+                  <p>{slide.description}</p>
+                  <Link to={slide.ctaLink} className="cta-button">
+                    {slide.ctaText}
+                  </Link>
+                </div>
+              </div>
+              <div className="hhero-image-container">
+                <img
+                  src={slide.image}
+                  alt={slide.title}
+                  loading="lazy"
+                  className="hhero-background-image"
+                />
+                <div className="hhero-overlay"></div>
+              </div>
+            </div>
+          ))}
+          
+          {/* Navigation arrows */}
+          <button className="slideshow-nav slideshow-prev" onClick={goToPrevSlide}>
+            <FaChevronLeft />
+          </button>
+          <button className="slideshow-nav slideshow-next" onClick={goToNextSlide}>
+            <FaChevronRight />
+          </button>
+          
+          {/* Dots indicator */}
+          <div className="slideshow-dots">
+            {heroSlides.map((_, index) => (
+              <button
+                key={index}
+                className={`dot ${index === currentSlide ? 'active' : ''}`}
+                onClick={() => goToSlide(index)}
+              />
+            ))}
           </div>
-        </div>
-        <div className="hhero-image-container">
-          <img
-            src="/HomePage.jpg"
-            alt="Electronics Collection"
-            loading="lazy"
-            className="hhero-background-image"
-          />
-          <div className="hhero-overlay"></div>
         </div>
       </section>
 
@@ -114,7 +189,6 @@ const Home = () => {
       <section className="categories-section">
         <div className="section-header">
           <h2 className="section-title">Shop By Category</h2>
-          
         </div>
         <div className="category-grid">
           {categories.map(({ id, name, Icon, color }) => (
@@ -178,22 +252,24 @@ const Home = () => {
           <p className="error-message">{error}</p>
         ) : visibleProducts.length ? (
           <>
-            <div className="products-images-scroll">
+            <div className="products-grid">
               {visibleProducts.map((product) => (
-                <div key={product.id} className="scroll-product-item">
-                  <img
-                    src={product.imageUrl || "/imagee.png"}
-                    alt={product.name}
-                    loading="lazy"
-                  />
-                  <div className="product-scroll-info">
+                <div key={product.id} className="product-card">
+                  <div className="product-image-container">
+                    <img
+                      src={product.imageUrl || "/imagee.png"}
+                      alt={product.name}
+                      loading="lazy"
+                      className="product-image"
+                    />
+                  </div>
+                  <div className="product-info">
                     <h4>{product.name}</h4>
-                    <p>${product.price}</p>
+                    <p className="product-price">${product.price}</p>
                   </div>
                 </div>
               ))}
             </div>
-            <ProductList products={visibleProducts} />
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}

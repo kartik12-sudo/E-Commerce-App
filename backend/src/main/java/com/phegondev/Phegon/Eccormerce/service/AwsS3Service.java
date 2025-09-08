@@ -1,61 +1,43 @@
 package com.phegondev.Phegon.Eccormerce.service;
 
-
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.core.sync.RequestBody;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.util.UUID;
 
 @Service
-@Slf4j
 public class AwsS3Service {
 
-    private final String bucketName = "phegon-ecommerce";
+    private final S3Client s3Client;
 
-    @Value("${aws.s3.access}")
-    private String awsS3AccessKey;
-    @Value("${aws.s3.secrete}")
-    private String awsS3SecreteKey;
+    @Value("${aws.s3.bucket}")
+    private String bucketName;
 
+    @Value("${aws.s3.region}")
+    private String region; // injected from application.properties
 
-    public String saveImageToS3(MultipartFile photo){
-        try {
-            String s3FileName = photo.getOriginalFilename();
-            //create aes credentials using the access and secrete key
-            BasicAWSCredentials awsCredentials = new BasicAWSCredentials(awsS3AccessKey, awsS3SecreteKey);
+    public AwsS3Service(S3Client s3Client) {
+        this.s3Client = s3Client;
+    }
 
-            //create an s3 client with config credentials and region
-            AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
-                    .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
-                    .withRegion(Regions.US_EAST_2)
-                    .build();
+    public String uploadFile(MultipartFile file) throws IOException {
+        String key = UUID.randomUUID() + "_" + file.getOriginalFilename();
 
-            //get input stream from photo
-            InputStream inputStream = photo.getInputStream();
+        s3Client.putObject(
+                PutObjectRequest.builder()
+                        .bucket(bucketName)
+                        .key(key)
+                        .contentType(file.getContentType()) // ✅ no ACL
+                        .build(),
+                RequestBody.fromBytes(file.getBytes())
+        );
 
-            //set metedata for the onject
-            ObjectMetadata metadata = new ObjectMetadata();
-            metadata.setContentType("image/jpeg");
-
-            //create a put request to upload the image to s3
-            PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, s3FileName, inputStream, metadata);
-            s3Client.putObject(putObjectRequest);
-
-            return "https://" + bucketName + ".s3.us-east-2.amazonaws.com/" + s3FileName;
-
-        }catch (IOException e){
-            e.printStackTrace();
-            throw new RuntimeException("Unable to upload image to s3 bucket: " + e.getMessage());
-        }
+        // ✅ public URL works because of your bucket policy
+        return "https://" + bucketName + ".s3." + region + ".amazonaws.com/" + key;
     }
 }
