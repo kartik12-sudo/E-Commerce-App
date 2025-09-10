@@ -1,0 +1,12 @@
+fastapi 
+uvicorn 
+pandas 
+numpy 
+transformers 
+torch 
+openpyxl
+datasets
+torch 
+torchvision 
+torchaudio
+transformers[torch]

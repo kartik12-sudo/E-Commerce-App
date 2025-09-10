@@ -1,0 +1,73 @@
+{
+    "Accessories": [
+        {
+            "Product": "Power Bank",
+            "Score": 0.6
+        }
+    ],
+    "Audio Devices": [
+        {
+            "Product": "Sony WH-1000XM5",
+            "Score": 0.6
+        }
+    ],
+    "Drones & Cameras": [
+        {
+            "Product": "DJI Mavic 3",
+            "Score": 0.6
+        },
+        {
+            "Product": "DJI Mini 3 Pro",
+            "Score": 0.6
+        },
+        {
+            "Product": "DJI Air 2S",
+            "Score": 0.6
+        }
+    ],
+    "Laptops": [
+        {
+            "Product": "MacBook Pro 16",
+            "Score": 0.6
+        },
+        {
+            "Product": "Dell XPS 15",
+            "Score": 0.6
+        },
+        {
+            "Product": "Lenovo ThinkPad X1 Carbon",
+            "Score": 0.6
+        }
+    ],
+    "Smart Home": [],
+    "Smartphones": [
+        {
+            "Product": "iPhone 15 Pro",
+            "Score": 0.6
+        }
+    ],
+    "Speakers": [
+        {
+            "Product": "JBL Charge 5",
+            "Score": 0.6
+        },
+        {
+            "Product": "Bose SoundLink Flex",
+            "Score": 0.6
+        },
+        {
+            "Product": "Marshall Emberton II",
+            "Score": 0.6
+        }
+    ],
+    "Tablets": [
+        {
+            "Product": "iPad Pro 12.9",
+            "Score": 0.6
+        },
+        {
+            "Product": "Samsung Galaxy Tab S9",
+            "Score": 0.6
+        }
+    ]
+}
