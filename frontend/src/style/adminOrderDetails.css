@@ -1,58 +1,320 @@
-.order-details-page{
-    padding: 20px;
-    width: 50%;
-    margin: auto;
-    margin-bottom: 100px;
-}
-.order-details-page h2{
-    text-align: center;
-    font-weight: 700;
-}
-.message{
-    text-align: center;
-    margin-bottom: 20px;
-}
-.order-item-details{
-    border: 1px solid #ddd;
-    padding: 20px;
-    margin-bottom: 20px;
+.order-details-page {
+    padding: 30px 20px;
+    width: 90%;
+    max-width: 800px;
+    margin: 0 auto;
+    margin-bottom: 60px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    border: 1px solid #f1f5f9;
 }
 
-.info, .status-change{
-    margin-bottom: 20px;
-}
-.info p{
-    margin: 5px 0;
-}
-.status-option{
-    padding: 10px;
-}
-.update-status-button{
-    background-color: #f68b1e;
-    color: #fff;
-    margin-left: 10px;
-    padding: 10px;
+.order-details-page h2 {
+    text-align: center;
     font-weight: 800;
-    font-size: 15px;
+    font-size: 2rem;
+    margin-bottom: 30px;
+    background: rgb(0, 0, 68);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.order-details-page h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(to right, #ec4899, #8b5cf6);
+    border-radius: 2px;
+}
+
+.message {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 15px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.message.success {
+    background: #f0fdf4;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+}
+
+.message.error {
+    background: #fef2f2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+}
+
+.order-item-details {
+    border: 1px solid #e2e8f0;
+    padding: 25px;
+    margin-bottom: 25px;
+    border-radius: 12px;
+    background: #f8fafc;
+    position: relative;
+}
+
+.order-item-details::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(to bottom, #ec4899, #8b5cf6);
+    border-radius: 4px 0 0 4px;
+}
+
+.info, .status-change {
+    margin-bottom: 25px;
+}
+
+.info p {
+    margin: 8px 0;
+    padding: 8px 0;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.info p:last-child {
+    border-bottom: none;
+}
+
+.info strong {
+    color: #1e293b;
+    min-width: 120px;
+}
+
+.info span {
+    color: #64748b;
+    text-align: right;
+}
+
+.status-change {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+.status-option {
+    padding: 12px 16px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    background: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex: 1;
+    min-width: 200px;
+}
+
+.status-option:focus {
+    outline: none;
+    border-color: #8b5cf6;
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+.update-status-button {
+    background: linear-gradient(135deg, #ec4899, #8b5cf6);
+    color: #fff;
+    padding: 12px 24px;
+    font-weight: 700;
+    font-size: 16px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    min-width: 150px;
 }
-.update-status-button:hover{
-    background-color: #b77029;
+
+.update-status-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
 }
 
+.update-status-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(99, 102, 241, 0.4);
+}
 
+.update-status-button:hover::before {
+    transform: translateX(0);
+}
 
+.update-status-button:active {
+    transform: translateY(1px);
+}
 
+/* Status badges */
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+    display: inline-block;
+}
 
+.status-pending {
+    background: #fef3c7;
+    color: #92400e;
+}
 
+.status-processing {
+    background: #dbeafe;
+    color: #1e40af;
+}
 
+.status-shipped {
+    background: #d1fae5;
+    color: #065f46;
+}
 
+.status-delivered {
+    background: #dcfce7;
+    color: #166534;
+}
 
+.status-cancelled {
+    background: #fee2e2;
+    color: #991b1b;
+}
 
+/* Order items list */
+.order-items-list {
+    margin-top: 30px;
+}
 
+.order-items-list h3 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    color: #1e293b;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 10px;
+}
 
+.order-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
 
+.order-item:last-child {
+    border-bottom: none;
+}
 
+.order-item:hover {
+    background: #f8fafc;
+}
 
+.order-item-info {
+    flex: 1;
+}
 
+.order-item-name {
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 5px;
+}
+
+.order-item-detail {
+    color: #64748b;
+    font-size: 14px;
+}
+
+.order-item-price {
+    font-weight: 700;
+    color: #6366f1;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .order-details-page {
+        width: 95%;
+        padding: 20px 15px;
+    }
+    
+    .order-details-page h2 {
+        font-size: 1.5rem;
+    }
+    
+    .status-change {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .status-option {
+        min-width: 100%;
+    }
+    
+    .update-status-button {
+        width: 100%;
+    }
+    
+    .info p {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .info strong {
+        min-width: auto;
+    }
+    
+    .info span {
+        text-align: left;
+    }
+}
+
+@media (max-width: 480px) {
+    .order-details-page {
+        width: 100%;
+        border-radius: 0;
+        margin-bottom: 40px;
+    }
+    
+    .order-details-page h2 {
+        font-size: 1.3rem;
+    }
+    
+    .order-item-details {
+        padding: 15px;
+    }
+    
+    .order-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .order-item-price {
+        align-self: flex-end;
+    }
+}

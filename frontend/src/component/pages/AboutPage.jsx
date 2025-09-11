@@ -1,56 +1,61 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './about.css';
+import '../../style/about.css';
 
 const AboutPage = () => {
   return (
     <div className="about-page">
       {/* Hero Banner */}
       <section className="about-hero">
-        <div className="hero-content">
-          <h1 className="gradient-heading">About ElectroHub</h1>
-          <p className="hero-tagline">
+        <div className="about-hero-content">
+          <h1>About ElectroHub</h1>
+          <p className="tagline">
             Redefining Electronics Shopping with Innovation, Quality, and Customer Focus
           </p>
         </div>
       </section>
 
       <main className="about-container">
-        {/* About Description */}
-        <section className="about-description">
-          <p>
-            At ElectroHub, we're revolutionizing the way people shop for electronics. We bring cutting-edge technology 
-            directly to your doorstep with an unparalleled selection of gadgets, devices, and accessories.
-          </p>
-        </section>
+        {/* About Description Card */}
+        <div className="card-section">
+          <div className="content-card">
+            <h2>Welcome to ElectroHub</h2>
+            <p>
+              At ElectroHub, we're revolutionizing the way people shop for electronics. We bring cutting-edge technology 
+              directly to your doorstep with an unparalleled selection of gadgets, devices, and accessories.
+            </p>
+          </div>
+        </div>
 
-        {/* Our Mission */}
-        <section className="about-mission">
-          <div className="mission-content">
-            <div className="mission-text">
-              <h2 className="gradient-heading">Our Mission</h2>
-              <p>
-                At ElectroHub, we believe that what's good for customers is ultimately good for business. We're committed 
-                to creating a sustainable electronics marketplace where quality, innovation, and customer satisfaction drive our success.
-              </p>
-              <p>
-                Our mission is to make premium technology accessible to everyone while maintaining the highest standards 
-                of product quality, customer service, and ethical business practices.
-              </p>
-            </div>
-            <div className="mission-image">
-              <img 
-                src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=800&q=80" 
-                alt="Our Mission" 
-              />
+        {/* Our Mission Card */}
+        <div className="card-section">
+          <div className="content-card mission-card">
+            <div className="card-content">
+              <div className="card-text">
+                <h2>Our Mission</h2>
+                <p>
+                  At ElectroHub, we believe that what's good for customers is ultimately good for business. We're committed 
+                  to creating a sustainable electronics marketplace where quality, innovation, and customer satisfaction drive our success.
+                </p>
+                <p>
+                  Our mission is to make premium technology accessible to everyone while maintaining the highest standards 
+                  of product quality, customer service, and ethical business practices.
+                </p>
+              </div>
+              <div className="card-image">
+                <img 
+                  src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=800&q=80" 
+                  alt="Our Mission" 
+                />
+              </div>
             </div>
           </div>
-        </section>
+        </div>
 
-        {/* Our Values */}
-        <section className="about-values">
-          <h2 className="purple-heading">Our Core Values</h2>
-          <div className="values-grid">
+        {/* Our Values Cards */}
+        <div className="card-section">
+          <h2>Our Core Values</h2>
+          <div className="cards-grid">
             <div className="value-card">
               <h3>Innovation</h3>
               <p>We constantly seek the latest technological advancements to bring you cutting-edge products.</p>
@@ -68,12 +73,12 @@ const AboutPage = () => {
               <p>Our customers are at the heart of everything we do.</p>
             </div>
           </div>
-        </section>
+        </div>
 
-        {/* Why Choose Us */}
-        <section className="about-why">
-          <h2 className="purple-heading">Why Choose ElectroHub?</h2>
-          <div className="features-grid">
+        {/* Why Choose Us Cards */}
+        <div className="card-section">
+          <h2>Why Choose ElectroHub?</h2>
+          <div className="cards-grid">
             <div className="feature-card">
               <h3>Verified Authenticity</h3>
               <p>All products are 100% genuine with manufacturer warranties.</p>
@@ -91,17 +96,17 @@ const AboutPage = () => {
               <p>Multiple secure payment methods including EMI options.</p>
             </div>
           </div>
-        </section>
+        </div>
 
-        {/* Quick Links */}
-        <div className="about-sections">
-          <section className="links-section">
-            <h2 className="gradient-heading">Quick Links</h2>
-            <ul>
-              <li><Link to="/">Home</Link></li>
-              <li><Link to="/shop">Shop Now</Link></li>
-            </ul>
-          </section>
+        {/* Quick Links Card */}
+        <div className="card-section">
+          <div className="content-card links-card">
+            <h2>Quick Links</h2>
+            <div className="links-container">
+              <Link to="/" className="gradient-btn">Home</Link>
+              <Link to="/shop" className="gradient-btn">Shop Now</Link>
+            </div>
+          </div>
         </div>
       </main>
     </div>

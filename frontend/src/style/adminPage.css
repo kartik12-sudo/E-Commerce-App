@@ -1,25 +1,107 @@
-.admin-page{
+.admin-page {
     margin-bottom: 200px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    min-height: 100vh;
 }
-.admin-page h1{
-    margin-bottom: 20xp;
-    font-size: 35px;
+
+.admin-page h1 {
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: rgb(9, 0, 87);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    position: relative;
+    padding-bottom: 15px;
 }
-.admin-page button{
-    margin: 10px;
-    padding: 20px;
-    font-size: 20px;
-    border-radius: 8px;
+
+.admin-page h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: darkblue;
+    border-radius: 2px;
+}
+
+.admin-page button {
+    margin: 15px;
+    padding: 18px 25px;
+    font-size: 1.1rem;
+    border-radius: 12px;
     font-weight: 700;
     border: none;
     cursor: pointer;
-    background-color: #f68b1e;
-    width: 35%;
+    background: linear-gradient(135deg, #ec4899, #8b5cf6);
+    width: 300px;
     color: #fff;
+    box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-.admin-page button:hover{
-    background-color: #a45d17;
+
+.admin-page button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+}
+
+.admin-page button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+}
+
+.admin-page button:hover::before {
+    transform: translateX(0);
+}
+
+.admin-page button:active {
+    transform: translateY(1px);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .admin-page h1 {
+        font-size: 2rem;
+    }
+    
+    .admin-page button {
+        width: 90%;
+        max-width: 300px;
+        padding: 16px 20px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-page {
+        padding: 30px 15px;
+    }
+    
+    .admin-page h1 {
+        font-size: 1.8rem;
+    }
+    
+    .admin-page button {
+        width: 100%;
+        margin: 12px 0;
+    }
 }

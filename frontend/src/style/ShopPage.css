@@ -1,0 +1,331 @@
+/* ShopPage.css - Complete Styling */
+
+/* Global styles for the shop page */
+.shop-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.shop-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 15px 50px rgba(0, 0, 63, 0.1);
+  padding: 30px;
+  position: relative;
+  overflow: hidden;
+}
+
+.shop-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+
+}
+
+.shop-heading {
+  text-align: center;
+  margin: 30px 0;
+  color: rgb(0, 0, 63);
+  font-size: 2.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.shop-heading::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(90deg, #ff6b9d, #c779d0);
+  border-radius: 2px;
+}
+
+/* Status messages */
+.status-container {
+  text-align: center;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.loading-text {
+  font-size: 1.3rem;
+  color: #5b5b5b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.loading-text::before {
+  content: '';
+  width: 20px;
+  height: 20px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #ff6b9d;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error-text {
+  color: #e74c3c;
+  font-size: 1.2rem;
+  background: rgba(231, 76, 60, 0.1);
+  padding: 15px;
+  border-radius: 10px;
+  border-left: 4px solid #e74c3c;
+}
+
+.empty-text {
+  font-size: 1.2rem;
+  color: #5b5b5b;
+  padding: 20px;
+  background: rgba(0, 0, 63, 0.05);
+  border-radius: 10px;
+}
+
+/* Filter section */
+.filter-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+  gap: 20px;
+  padding: 20px;
+  background: rgba(0, 0, 63, 0.03);
+  border-radius: 15px;
+}
+
+.filter-label {
+  font-weight: 600;
+  color: rgb(0, 0, 63);
+  margin-right: 10px;
+}
+
+.filter-select {
+  padding: 12px 25px;
+  border-radius: 30px;
+  border: 2px solid #e0e0e0;
+  background-color: white;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s;
+  min-width: 200px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.filter-select:focus {
+  border-color: #c779d0;
+  box-shadow: 0 5px 15px rgba(199, 121, 208, 0.2);
+}
+
+/* Gradient buttons */
+.gradient-btn {
+  background: linear-gradient(135deg, #ff6b9d 0%, #c779d0 50%, #4bc0c8 100%);
+  border: none;
+  border-radius: 30px;
+  padding: 14px 32px;
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  margin: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.gradient-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: all 0.5s ease;
+}
+
+.gradient-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+}
+
+.gradient-btn:hover::before {
+  left: 100%;
+}
+
+.gradient-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Product grid layout */
+.product-grid-container {
+  margin-top: 30px;
+}
+
+.product-grid-title {
+  color: rgb(0, 0, 63);
+  font-size: 1.8rem;
+  margin-bottom: 25px;
+  text-align: center;
+  font-weight: 700;
+  position: relative;
+  display: inline-block;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0 20px 10px;
+}
+
+.product-grid-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #ff6b9d, #c779d0);
+  border-radius: 3px;
+}
+
+/* Footer */
+.shop-footer {
+  text-align: center;
+  margin-top: 50px;
+  padding: 20px;
+  color: rgb(0, 0, 63);
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .shop-page {
+    padding: 10px;
+  }
+  
+  .shop-container {
+    padding: 20px;
+    border-radius: 15px;
+  }
+  
+  .shop-heading {
+    font-size: 2rem;
+    margin: 20px 0;
+  }
+  
+  .filter-section {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .filter-select {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .gradient-btn {
+    width: 100%;
+    max-width: 300px;
+    margin: 5px 0;
+  }
+}
+
+/* Animation for page entrance */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.shop-container {
+  animation: fadeIn 0.5s ease-out;
+}
+/* Additional styles for product cards */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 25px;
+  margin-top: 30px;
+}
+
+.product-card {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.product-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.product-info {
+  padding: 20px;
+}
+
+.product-title {
+  color: rgb(0, 0, 63);
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.product-price {
+  color: #e74c3c;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.product-btn {
+  background: linear-gradient(135deg, #ff6b9d, #c779d0);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 600;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.product-btn:hover {
+  background: linear-gradient(135deg, #ff85a9, #d58ce0);
+}
