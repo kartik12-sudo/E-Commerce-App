@@ -39,11 +39,13 @@ public class ProductServiceImpl implements ProductService {
         product.setDescription(description);
         product.setImageUrl(imageUrl);
 
-        productRepo.save(product);
+        Product savedProduct = productRepo.save(product);
+        ProductDto productDto = entityDtoMapper.mapProductToDtoBasic(savedProduct);
 
         return Response.builder()
                 .status(200)
                 .message("Product successfully created")
+                .product(productDto)
                 .build();
     }
 
@@ -62,11 +64,13 @@ public class ProductServiceImpl implements ProductService {
         if (description != null) product.setDescription(description);
         if (imageUrl != null) product.setImageUrl(imageUrl);
 
-        productRepo.save(product);
+        Product updatedProduct = productRepo.save(product);
+        ProductDto productDto = entityDtoMapper.mapProductToDtoBasic(updatedProduct);
 
         return Response.builder()
                 .status(200)
                 .message("Product updated successfully")
+                .product(productDto)
                 .build();
     }
 

@@ -1,14 +1,14 @@
-// src/App.js
+import PaymentSuccessPage from './component/pages/PaymentSuccessPage';
 
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ProtectedRoute, AdminRoute } from './service/Guard';
+import PaymentPage from './component/pages/PaymentPage';
 import Navbar from './component/common/Navbar';
 import Footer from './component/common/footer';
 import { CartProvider } from './component/context/CartContext';
-import { ToastContainer } from "react-toastify";   // ✅ added
-import "react-toastify/dist/ReactToastify.css";    // ✅ include CSS once globally
-
+import { ToastContainer } from "react-toastify";   
+import "react-toastify/dist/ReactToastify.css";    
 import Home from './component/pages/Home';
 import ProductDetailsPage from './component/pages/ProductDetailsPage';
 import CategoryListPage from './component/pages/CategoryListPage';
@@ -33,7 +33,6 @@ import ShopPage from './component/pages/ShopPage';
 
 import AboutPage from './component/pages/AboutPage';
 import BlogPage from './component/pages/BlogPage';
-// -- BlogDetailsPage import has been removed --
 
 function App() {
   return (
@@ -48,6 +47,8 @@ function App() {
           <Route path="/categories" element={<CategoryListPage />} />
           <Route path="/category/:categoryId" element={<CategoryProductsPage />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/payment" element={<PaymentPage />} />
+              <Route path="/payment-success" element={<PaymentSuccessPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/otp" element={<OtpPage />} />
           <Route path="/login" element={<LoginPage />} />

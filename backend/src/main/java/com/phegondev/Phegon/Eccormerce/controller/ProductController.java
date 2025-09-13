@@ -5,6 +5,7 @@ import com.phegondev.Phegon.Eccormerce.exception.InvalidCredentialsException;
 import com.phegondev.Phegon.Eccormerce.service.AwsS3Service;
 import com.phegondev.Phegon.Eccormerce.service.interf.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -34,10 +35,11 @@ public class ProductController {
             throw new InvalidCredentialsException("All fields are required");
         }
 
-        // Upload image and get URL
         String imageUrl = awsS3Service.uploadFile(image);
 
-        return ResponseEntity.ok(productService.createProduct(categoryId, imageUrl, name, description, price));
+        return ResponseEntity.ok(
+                productService.createProduct(categoryId, imageUrl, name, description, price)
+        );
     }
 
     @PutMapping("/update")
@@ -55,13 +57,23 @@ public class ProductController {
             imageUrl = awsS3Service.uploadFile(image);
         }
 
-        return ResponseEntity.ok(productService.updateProduct(productId, categoryId, imageUrl, name, description, price));
+        return ResponseEntity.ok(
+                productService.updateProduct(productId, categoryId, imageUrl, name, description, price)
+        );
     }
 
     @DeleteMapping("/delete/{productId}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Response> deleteProduct(@PathVariable Long productId) {
-        return ResponseEntity.ok(productService.deleteProduct(productId));
+        try {
+            return ResponseEntity.ok(productService.deleteProduct(productId));
+        } catch (DataIntegrityViolationException e) {
+            // ✅ now works because Response has @NoArgsConstructor
+            Response errorResponse = new Response();
+            errorResponse.setStatus(400);
+            errorResponse.setMessage("Cannot delete product because it is linked to existing orders.");
+            return ResponseEntity.badRequest().body(errorResponse);
+        }
     }
 
     @GetMapping("/get-by-product-id/{productId}")

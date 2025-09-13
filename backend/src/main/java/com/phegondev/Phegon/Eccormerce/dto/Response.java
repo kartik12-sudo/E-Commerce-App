@@ -1,15 +1,18 @@
 package com.phegondev.Phegon.Eccormerce.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.phegondev.Phegon.Eccormerce.enums.UserRole;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor   // ✅ Fix: allows new Response()
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Response {
 
@@ -19,13 +22,12 @@ public class Response {
 
     private String token;
     private String role;
-    private String  expirationTime;
+    private String expirationTime;
 
     private int totalPage;
     private long totalElement;
 
     private AddressDto address;
-
     private UserDto user;
     private List<UserDto> userList;
 

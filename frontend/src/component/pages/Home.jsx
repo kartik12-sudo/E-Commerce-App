@@ -24,39 +24,42 @@ import "../../style/home.css";
 
 const itemsPerPage = 10;
 
-const categories = [
-  { id: 1, name: "Smartphones", Icon: FaMobileAlt, color: "#6366f1" },
-  { id: 2, name: "Laptops", Icon: FaLaptop, color: "#8b5cf6" },
-  { id: 3, name: "Audio Devices", Icon: FaHeadphones, color: "#ec4899" },
-  { id: 4, name: "Smart Home", Icon: FaTv, color: "#3b82f6" },
-  { id: 5, name: "Accessories", Icon: FiWatch, color: "#06b6d4" },
-  { id: 6, name: "Drones & Cameras", Icon: FaCameraRetro, color: "#f43f5e" },
-  { id: 7, name: "Sale", Icon: FaTags, color: "#ef4444" },
-  { id: 8, name: "Tablets", Icon: FaTabletAlt, color: "#a855f7" },
-  { id: 9, name: "Best Sellers", Icon: FaStar, color: "#f59e0b" },
-  { id: 10, name: "Speakers", Icon: FaVolumeUp, color: "#14b8a6" },
-];
+const categoryIcons = {
+  "Electronics": FaLaptop,
+  "Smartphones": FaMobileAlt,
+  "Audio Devices": FaHeadphones,
+  "Smart Home": FaTv,
+  "Accessories": FiWatch,
+  "Drones and Cameras": FaCameraRetro,
+  "Tablets": FaTabletAlt,
+  "Speakers": FaVolumeUp,
+  "Sale": FaTags,
+  "Best Sellers": FaStar,
+};
+
+
+
 
 // Slideshow data
 const heroSlides = [
   {
     id: 1,
-    
+
     image: "/i.jpg",
     ctaText: "Shop Now",
     ctaLink: "/shop"
   },
   {
     id: 2,
-    
-    image: "/image2.png", 
+
+    image: "/image2.png",
     ctaText: "View Deals",
     ctaLink: "/shop"
   },
   {
     id: 3,
-    
-    image: "/image1.png", 
+
+    image: "/image1.png",
     ctaText: "Explore New",
     ctaLink: "/shop"
   }
@@ -72,12 +75,26 @@ const Home = () => {
   const [error, setError] = useState("");
   const [currentSlide, setCurrentSlide] = useState(0);
 
+
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    ApiService.getAllCategory()
+      .then((res) => {
+        setCategories(res.categoryList || []);
+      })
+      .catch((err) => {
+        console.error("❌ Error loading categories:", err);
+      });
+  }, []);
+
+
   // Auto-advance slideshow
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
     }, 5000); // Change slide every 5 seconds
-    
+
     return () => clearInterval(interval);
   }, []);
 
@@ -139,7 +156,7 @@ const Home = () => {
       <section className="hhero-section">
         <div className="hhero-slideshow">
           {heroSlides.map((slide, index) => (
-            <div 
+            <div
               key={slide.id}
               className={`hhero-slide ${index === currentSlide ? 'active' : ''}`}
             >
@@ -163,7 +180,7 @@ const Home = () => {
               </div>
             </div>
           ))}
-          
+
           {/* Navigation arrows */}
           <button className="slideshow-nav slideshow-prev" onClick={goToPrevSlide}>
             <FaChevronLeft />
@@ -171,7 +188,7 @@ const Home = () => {
           <button className="slideshow-nav slideshow-next" onClick={goToNextSlide}>
             <FaChevronRight />
           </button>
-          
+
           {/* Dots indicator */}
           <div className="slideshow-dots">
             {heroSlides.map((_, index) => (
@@ -191,21 +208,23 @@ const Home = () => {
           <h2 className="section-title">Shop By Category</h2>
         </div>
         <div className="category-grid">
-          {categories.map(({ id, name, Icon, color }) => (
-            <Link to={`/category/${id}`} key={id} className="category-link">
-              <div
-                className="category-card"
-                style={{ "--category-color": color }}
-              >
-                <div className="category-icon-container">
-                  <Icon className="category-icon" />
+          {categories.map((cat) => {
+            const Icon = categoryIcons[cat.name] || FaTags; 
+            return (
+              <Link to={`/category/${cat.id}`} key={cat.id} className="category-link">
+                <div className="category-card" style={{ "--category-color": "#6366f1" }}>
+                  <div className="category-icon-container">
+                    <Icon className="category-icon" />
+                  </div>
+                  <h3>{cat.name}</h3>
                 </div>
-                <h3>{name}</h3>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            );
+          })}
         </div>
       </section>
+
+
 
       {/* Featured Banner */}
       <section className="featured-banner">
