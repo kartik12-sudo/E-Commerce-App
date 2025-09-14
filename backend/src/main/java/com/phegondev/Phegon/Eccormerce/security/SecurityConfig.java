@@ -35,7 +35,8 @@ public class SecurityConfig {
                                 "/category/**",
                                 "/product/**",
                                 "/order/**",
-                                "/api/sales/**"   // ✅ allow AI best-sellers API without auth
+                                "/api/sales/**" ,
+                                "/api/payment/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

@@ -9,7 +9,9 @@ import com.phegondev.Phegon.Eccormerce.entity.Product;
 import com.phegondev.Phegon.Eccormerce.entity.User;
 import com.phegondev.Phegon.Eccormerce.enums.OrderStatus;
 import com.phegondev.Phegon.Eccormerce.exception.NotFoundException;
+import com.phegondev.Phegon.Eccormerce.exception.BadRequestException;
 import com.phegondev.Phegon.Eccormerce.mapper.EntityDtoMapper;
+import com.phegondev.Phegon.Eccormerce.repository.AddressRepo;
 import com.phegondev.Phegon.Eccormerce.repository.OrderItemRepo;
 import com.phegondev.Phegon.Eccormerce.repository.OrderRepo;
 import com.phegondev.Phegon.Eccormerce.repository.ProductRepo;
@@ -39,49 +41,54 @@ public class OrderItemServiceImpl implements OrderItemService {
     private final ProductRepo productRepo;
     private final UserService userService;
     private final EntityDtoMapper entityDtoMapper;
+    private final AddressRepo addressRepo;
 
 
     @Override
-    public Response placeOrder(OrderRequest orderRequest) {
+public Response placeOrder(OrderRequest orderRequest) {
+    User user = userService.getLoginUser();
 
-        User user = userService.getLoginUser();
-        //map order request items to order entities
-
-        List<OrderItem> orderItems = orderRequest.getItems().stream().map(orderItemRequest -> {
-            Product product = productRepo.findById(orderItemRequest.getProductId())
-                    .orElseThrow(()-> new NotFoundException("Product Not Found"));
-
-            OrderItem orderItem = new OrderItem();
-            orderItem.setProduct(product);
-            orderItem.setQuantity(orderItemRequest.getQuantity());
-            orderItem.setPrice(product.getPrice().multiply(BigDecimal.valueOf(orderItemRequest.getQuantity()))); //set price according to the quantity
-            orderItem.setStatus(OrderStatus.PENDING);
-            orderItem.setUser(user);
-            return orderItem;
-
-        }).collect(Collectors.toList());
-
-        //calculate the total price
-        BigDecimal totalPrice = orderRequest.getTotalPrice() != null && orderRequest.getTotalPrice().compareTo(BigDecimal.ZERO) > 0
-                ? orderRequest.getTotalPrice()
-                : orderItems.stream().map(OrderItem::getPrice).reduce(BigDecimal.ZERO, BigDecimal::add);
-
-        //create order entity
-        Order order = new Order();
-        order.setOrderItemList(orderItems);
-        order.setTotalPrice(totalPrice);
-
-        //set the order reference in each orderitem
-        orderItems.forEach(orderItem -> orderItem.setOrder(order));
-
-        orderRepo.save(order);
-
-        return Response.builder()
-                .status(200)
-                .message("Order was successfully placed")
-                .build();
-
+   
+    if (!addressRepo.existsByUserId(user.getId())) {
+        throw new BadRequestException("You must add an address before placing an order");
     }
+
+    // Map order request items → entities
+    List<OrderItem> orderItems = orderRequest.getItems().stream().map(orderItemRequest -> {
+        Product product = productRepo.findById(orderItemRequest.getProductId())
+                .orElseThrow(() -> new NotFoundException("Product Not Found"));
+
+        OrderItem orderItem = new OrderItem();
+        orderItem.setProduct(product);
+        orderItem.setQuantity(orderItemRequest.getQuantity());
+        orderItem.setPrice(product.getPrice().multiply(BigDecimal.valueOf(orderItemRequest.getQuantity())));
+        orderItem.setStatus(OrderStatus.PENDING);
+        orderItem.setUser(user);
+        return orderItem;
+    }).collect(Collectors.toList());
+
+    // Calculate total
+    BigDecimal totalPrice = orderRequest.getTotalPrice() != null && orderRequest.getTotalPrice().compareTo(BigDecimal.ZERO) > 0
+            ? orderRequest.getTotalPrice()
+            : orderItems.stream().map(OrderItem::getPrice).reduce(BigDecimal.ZERO, BigDecimal::add);
+
+    // Create order
+    Order order = new Order();
+    order.setOrderItemList(orderItems);
+    order.setTotalPrice(totalPrice);
+
+    orderItems.forEach(orderItem -> orderItem.setOrder(order));
+
+    orderRepo.save(order);
+
+    log.info("User {} placed order with {} items, total {}", user.getId(), orderItems.size(), totalPrice);
+
+    return Response.builder()
+            .status(200)
+            .message("Order was successfully placed")
+            .order(entityDtoMapper.mapOrderToDto(order)) 
+            .build();
+}
 
     @Override
     public Response updateOrderItemStatus(Long orderItemId, String status) {

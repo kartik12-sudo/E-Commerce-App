@@ -1,67 +1,46 @@
+// src/component/pages/PaymentPage.jsx
 import React, { useEffect, useState } from 'react';
 import { Elements, useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useCart } from '../context/CartContext';
-import ApiService from '../../service/ApiService';
-import '../../style/PaymentPage.css'; 
+import { useLocation } from 'react-router-dom';
+import '../../style/PaymentPage.css';
 
- 
+const stripePromise = loadStripe(
+  'pk_test_51S3zEiRCaYDnuBMfKNYrvct2SSH9lG5pMFsK6VwXguRS1pz9b2b2Aaf8ASGYFzBdlSZGiEi8ZfvtLjE4ceh11rnR00XqRpFIKL'
+);
 
-const stripePromise = loadStripe('pk_test_51S3zEiRCaYDnuBMfKNYrvct2SSH9lG5pMFsK6VwXguRS1pz9b2b2Aaf8ASGYFzBdlSZGiEi8ZfvtLjE4ceh11rnR00XqRpFIKL');
-
-const PaymentForm = ({ totalPrice, cart, clientSecret }) => {
+const PaymentForm = ({ clientSecret }) => {
   const stripe = useStripe();
   const elements = useElements();
-  const navigate = useNavigate();
-  const { dispatch } = useCart();
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!stripe || !elements) return;
+
     setIsLoading(true);
 
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
+        // Stripe will redirect here with redirect_status
         return_url: window.location.origin + '/payment-success',
       },
     });
 
     if (error) {
       setMessage(error.message);
-      setIsLoading(false);
-      return;
     }
 
-    try {
-      const orderItems = cart.map(item => ({
-        productId: item.id,
-        quantity: item.quantity
-      }));
-      const orderRequest = { totalPrice, items: orderItems };
-
-      const response = await ApiService.createOrder(orderRequest);
-
-      if (response.status === 200) {
-        dispatch({ type: 'CLEAR_CART' });
-        navigate('/profile');
-      } else {
-        setMessage(response.message || 'Order placement failed');
-      }
-    } catch (err) {
-      setMessage('Order placement failed');
-    }
     setIsLoading(false);
   };
 
   return (
     <form onSubmit={handleSubmit} className="payment-form">
       <PaymentElement />
-      <button 
-        type="submit" 
+      <button
+        type="submit"
         disabled={!stripe || isLoading}
         className="payment-btn"
       >
@@ -76,7 +55,7 @@ const PaymentPage = () => {
   const location = useLocation();
   const [clientSecret, setClientSecret] = useState(null);
   const [message, setMessage] = useState(null);
-  const { totalPrice, cart } = location.state || {};
+  const { totalPrice } = location.state || {};
 
   useEffect(() => {
     const fetchClientSecret = async () => {
@@ -96,10 +75,11 @@ const PaymentPage = () => {
         setMessage('Error connecting to payment API');
       }
     };
+
     if (totalPrice) fetchClientSecret();
   }, [totalPrice]);
 
-  if (!totalPrice || !cart) {
+  if (!totalPrice) {
     return <div className="payment-error">No cart data found. Please go back and try again.</div>;
   }
 
@@ -111,7 +91,7 @@ const PaymentPage = () => {
         {message && <div className="payment-message">{message}</div>}
         {clientSecret ? (
           <Elements stripe={stripePromise} options={{ clientSecret }}>
-            <PaymentForm totalPrice={totalPrice} cart={cart} clientSecret={clientSecret} />
+            <PaymentForm clientSecret={clientSecret} />
           </Elements>
         ) : (
           <div>Loading payment form...</div>
