@@ -68,14 +68,19 @@ const PaymentPage = () => {
   const { totalPrice } = location.state || {};
 
   // Fetch Stripe clientSecret
+  // Fetch Stripe clientSecret via ApiService
   useEffect(() => {
     const fetchClientSecret = async () => {
       try {
-        const response = await fetch('http://localhost:2424/api/payment/create-intent', {
+        const response = await fetch('/api/payment/create-intent', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            ...ApiService.getHeader()
+          },
           body: JSON.stringify({ amount: Math.round(totalPrice * 100) })
         });
+
         const data = await response.json();
         if (data.clientSecret) {
           setClientSecret(data.clientSecret);
@@ -89,6 +94,7 @@ const PaymentPage = () => {
 
     if (totalPrice) fetchClientSecret();
   }, [totalPrice]);
+
 
   // Fetch user addresses
   useEffect(() => {
