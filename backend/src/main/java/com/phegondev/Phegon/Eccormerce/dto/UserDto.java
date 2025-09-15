@@ -1,6 +1,5 @@
 package com.phegondev.Phegon.Eccormerce.dto;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
@@ -22,6 +21,9 @@ public class UserDto {
     private String phoneNumber;
     private String password;
     private String role;
+
+    // ✅ Multiple addresses instead of one
+    private List<AddressDto> addresses;
+
     private List<OrderItemDto> orderItemList;
-    private AddressDto address;
 }

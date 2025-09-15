@@ -9,11 +9,13 @@ import {
   FaSignInAlt,
   FaUser,
   FaSignOutAlt,
+  FaHeart,
 } from "react-icons/fa";
 
 const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
@@ -50,9 +52,20 @@ const Navbar = () => {
   const handleCartClick = (e) => {
     e.preventDefault();
     if (!isLoggedIn) {
+      setPopupMessage("Please login or sign up to access your cart and continue shopping with ElectroHub.");
       setShowPopup(true);
     } else {
       navigate("/cart");
+    }
+  };
+
+  const handleWishlistClick = (e) => {
+    e.preventDefault();
+    if (!isLoggedIn) {
+      setPopupMessage("Please login or sign up to access your wishlist and save your favorite items.");
+      setShowPopup(true);
+    } else {
+      navigate("/wishlist");
     }
   };
 
@@ -111,6 +124,13 @@ const Navbar = () => {
 
         {/* Right Section - User Actions */}
         <div className="nav-right">
+          <button type="button" className="nav-icon bag-btn" onClick={handleWishlistClick}>
+            <FaHeart />
+            <NavLink to="/Wishlist" className="nav-icon ">
+            <span>Wishlist</span></NavLink>
+            
+          </button>
+
           <button type="button" className="nav-icon bag-btn" onClick={handleCartClick}>
             <FaShoppingBag />
             <span>Bag</span>
@@ -162,10 +182,7 @@ const Navbar = () => {
         <div className="popup-overlay" onClick={() => setShowPopup(false)}>
           <div className="popup-modal" onClick={(e) => e.stopPropagation()}>
             <h2>Login Required</h2>
-            <p>
-              Please login or sign up to access your cart and continue shopping
-              with ElectroHub.
-            </p>
+            <p>{popupMessage}</p>
             <div className="popup-buttons">
               <button className="popup-btn signup-btn" onClick={handleSignup}>
                 <FaUserPlus /> Sign Up

@@ -60,7 +60,7 @@ const CategoryProductsPage = () => {
           {/* ✅ Price Filter Bar */}
           <div className="filter-bar">
             <label>
-              Max Price: $
+              Max Price: ₹
               <input
                 type="number"
                 value={priceFilter}

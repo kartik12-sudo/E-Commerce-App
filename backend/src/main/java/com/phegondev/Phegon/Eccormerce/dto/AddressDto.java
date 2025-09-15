@@ -1,10 +1,7 @@
 package com.phegondev.Phegon.Eccormerce.dto;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.phegondev.Phegon.Eccormerce.entity.User;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,7 +23,8 @@ public class AddressDto {
     private String zipCode;
     private String country;
 
+    // ✅ Keep reference to user if needed
     private UserDto user;
 
-    private  LocalDateTime createdAt;
+    private LocalDateTime createdAt;
 }

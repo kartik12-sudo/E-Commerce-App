@@ -166,6 +166,22 @@ export default class ApiService {
         return response.data;
     }
 
+    /**ADDRESS */
+    static async saveAddress(body) {
+        const response = await axios.post(`${this.BASE_URL}/address/save`, body, {
+            headers: this.getHeader()
+        });
+        return response.data;
+    }
+
+    static async deleteAddress(addressId) {
+        const response = await axios.delete(`${this.BASE_URL}/address/delete/${addressId}`, {
+            headers: this.getHeader()
+        });
+        return response.data;
+    }
+
+
     /***AUTHEMNTICATION CHECKER */
     static logout() {
         localStorage.removeItem('token')

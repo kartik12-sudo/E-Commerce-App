@@ -9,6 +9,18 @@ const ShopPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [category, setCategory] = useState("all");
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    ApiService.getAllCategory()
+      .then((res) => {
+        setCategories(res.categoryList || []);
+      })
+      .catch((err) => {
+        console.error("❌ Error loading categories:", err);
+      });
+  }, []);
+
 
   useEffect(() => {
     ApiService.getAllProducts()
@@ -41,7 +53,8 @@ const ShopPage = () => {
       setFilteredProducts(products);
     } else {
       setFilteredProducts(products.filter(product => 
-        product.category && product.category.toLowerCase() === category
+        // product.category && product.category.toLowerCase() === category
+        product.category && product.category.name && product.category.name.toLowerCase() === category
       ));
     }
   }, [category, products]);
@@ -66,10 +79,11 @@ const ShopPage = () => {
           onChange={handleCategoryChange}
         >
           <option value="all">All Products</option>
-          <option value="electronics">Electronics</option>
-          <option value="clothing">Clothing</option>
-          <option value="home">Home & Kitchen</option>
-          <option value="beauty">Beauty</option>
+          {categories.map(cat => (
+            <option key={cat.id} value={cat.name.toLowerCase()}>
+              {cat.name}
+            </option>
+          ))}
         </select>
         
         <button className="gradient-btn" onClick={resetFilters}>

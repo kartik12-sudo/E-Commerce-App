@@ -7,8 +7,8 @@ import PaymentPage from './component/pages/PaymentPage';
 import Navbar from './component/common/Navbar';
 import Footer from './component/common/footer';
 import { CartProvider } from './component/context/CartContext';
-import { ToastContainer } from "react-toastify";   
-import "react-toastify/dist/ReactToastify.css";    
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Home from './component/pages/Home';
 import ProductDetailsPage from './component/pages/ProductDetailsPage';
 import CategoryListPage from './component/pages/CategoryListPage';
@@ -48,16 +48,23 @@ function App() {
           <Route path="/category/:categoryId" element={<CategoryProductsPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/payment" element={<PaymentPage />} />
-              <Route path="/payment-success" element={<PaymentSuccessPage />} />
+          <Route path="/payment-success" element={<PaymentSuccessPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/otp" element={<OtpPage />} />
           <Route path="/login" element={<LoginPage />} />
 
           {/* Protected User Routes */}
           <Route path="/profile" element={<ProtectedRoute element={<ProfilePage />} />} />
-          <Route path="/add-address" element={<ProtectedRoute element={<AddressPage />} />} />
-          <Route path="/edit-address" element={<ProtectedRoute element={<AddressPage />} />} />
-          
+          <Route
+            path="/add-address"
+            element={<ProtectedRoute element={<AddressPage isEdit={false} />} />}
+          />
+          <Route
+            path="/edit-address/:id"
+            element={<ProtectedRoute element={<AddressPage isEdit={true} />} />}
+          />
+
+
           <Route path="/shop" element={<ShopPage />} />
 
           {/* Admin Routes */}

@@ -1,49 +1,41 @@
-// src/component/pages/PaymentSuccessPage.jsx
 import React, { useEffect, useContext, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
-import ApiService from '../../service/ApiService';
 import '../../style/PaymentSuccess.css';
 
 const PaymentSuccessPage = () => {
-  const { cart, dispatch } = useContext(CartContext);
+  const { dispatch } = useContext(CartContext);
   const navigate = useNavigate();
   const location = useLocation();
-  const [message, setMessage] = useState(null);
+  const [showDetails, setShowDetails] = useState(false);
+  const [orderDetails, setOrderDetails] = useState(null);
 
   // Parse query params from Stripe
   const params = new URLSearchParams(location.search);
   const redirectStatus = params.get('redirect_status');
 
   useEffect(() => {
-    const placeOrder = async () => {
-      if (redirectStatus === 'succeeded' && cart.length > 0) {
-        try {
-          const orderItems = cart.map((item) => ({
-            productId: item.id,
-            quantity: item.quantity,
-          }));
-          const totalPrice = cart.reduce(
-            (total, item) => total + item.price * item.quantity,
-            0
-          );
-          const orderRequest = { totalPrice, items: orderItems };
+    if (redirectStatus === 'succeeded') {
+      try {
+        // ✅ Get last order from localStorage
+        const savedOrder = JSON.parse(localStorage.getItem("lastOrder"));
 
-          const response = await ApiService.createOrder(orderRequest);
+        if (savedOrder) {
+          setOrderDetails({
+            items: savedOrder.items || [],
+            totalPrice: savedOrder.totalPrice || 0,
+            shippingAddress: savedOrder.address || null,
+            etaDays: Math.floor(Math.random() * 5) + 2,
+          });
 
-          if (response.status === 200) {
-            dispatch({ type: 'CLEAR_CART' });
-          } else {
-            setMessage(response.message || 'Order placement failed after payment');
-          }
-        } catch (err) {
-          setMessage('Order placement failed after payment');
+          dispatch({ type: 'CLEAR_CART' });
+          localStorage.removeItem("lastOrder");
         }
+      } catch (err) {
+        console.error("Error retrieving order details:", err);
       }
-    };
-
-    placeOrder();
-  }, [redirectStatus, cart, dispatch]);
+    }
+  }, [redirectStatus, dispatch]);
 
   return (
     <div className="payment-success-page">
@@ -54,7 +46,57 @@ const PaymentSuccessPage = () => {
             <p className="success-message">
               Your order has been placed. Thank you for shopping with us.
             </p>
-            {message && <p className="error-message">{message}</p>}
+
+            {/* Toggle Button */}
+            {orderDetails && (
+              <button
+                className="success-btn"
+                onClick={() => setShowDetails(!showDetails)}
+              >
+                {showDetails ? 'Hide Order Details' : 'View Order Details'}
+              </button>
+            )}
+
+            {/* Order Details */}
+            {showDetails && orderDetails && (
+              <div className="order-details">
+                <h3>🛍️ Order Summary</h3>
+                <ul>
+                  {orderDetails.items.map((item, idx) => (
+                    <li key={idx} className="order-item">
+                      <strong>{item.name}</strong> × {item.quantity} — $
+                      {(item.price * item.quantity).toFixed(2)}
+                    </li>
+                  ))}
+                </ul>
+                <p><strong>Total:</strong> ${orderDetails.totalPrice.toFixed(2)}</p>
+
+                {orderDetails.shippingAddress && (
+                  <div className="shipping-address">
+                    <h3>📦 Shipping To</h3>
+                    <p>{orderDetails.shippingAddress.street}</p>
+                    <p>
+                      {orderDetails.shippingAddress.city},{' '}
+                      {orderDetails.shippingAddress.state}{' '}
+                      {orderDetails.shippingAddress.zipCode}
+                    </p>
+                    <p>{orderDetails.shippingAddress.country}</p>
+                  </div>
+                )}
+
+                <p className="eta">
+                  🚚 Estimated Delivery: {orderDetails.etaDays} days
+                </p>
+              </div>
+            )}
+
+            {/* Go to history button below */}
+            <button
+              className="success-btn"
+              onClick={() => navigate('/profile')}
+            >
+              Go to Order History
+            </button>
           </>
         ) : (
           <>
@@ -64,12 +106,6 @@ const PaymentSuccessPage = () => {
             </p>
           </>
         )}
-        <button
-          className="success-btn"
-          onClick={() => navigate('/profile')}
-        >
-          Go to Order History
-        </button>
       </div>
     </div>
   );
