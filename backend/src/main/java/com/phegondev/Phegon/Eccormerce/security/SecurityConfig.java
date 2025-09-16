@@ -22,40 +22,40 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final JwtAuthFilter jwtAuthFilter;
+        private final JwtAuthFilter jwtAuthFilter;
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.csrf(AbstractHttpConfigurer::disable)
-                .cors(Customizer.withDefaults())
-                .authorizeHttpRequests(request -> request
-                        .requestMatchers(
-                                "/auth/**",       
-                                "/otp/**",        
-                                "/category/**",
-                                "/product/**",
-                                "/order/**",
-                                "/api/sales/**" ,
-                                "/api/payment/**"
-                        ).permitAll()
-                        .anyRequest().authenticated()
-                )
-                .sessionManagement(manager ->
-                        manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+        @Bean
+        public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+                httpSecurity.csrf(AbstractHttpConfigurer::disable)
+                                .cors(Customizer.withDefaults())
+                                .authorizeHttpRequests(request -> request
+                                                .requestMatchers(
+                                                                "/auth/**", "/api/auth/**",
+                                                                "/otp/**", "/api/otp/**",
+                                                                "/category/**", "/api/category/**",
+                                                                "/product/**", "/api/product/**",
+                                                                "/order/**", "/api/order/**",
+                                                                "/sales/**", "/api/sales/**",
+                                                                "/payment/**", "/api/payment/**")
+                                                .permitAll()
+                                                .anyRequest().authenticated()
 
-        return httpSecurity.build();
-    }
+                                )
+                                .sessionManagement(manager -> manager
+                                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+                return httpSecurity.build();
+        }
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
-            throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
-    }
+        @Bean
+        public PasswordEncoder passwordEncoder() {
+                return new BCryptPasswordEncoder();
+        }
+
+        @Bean
+        public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
+                        throws Exception {
+                return authenticationConfiguration.getAuthenticationManager();
+        }
 }

@@ -67,12 +67,12 @@ const PaymentPage = () => {
   const [isAddressConfirmed, setIsAddressConfirmed] = useState(false);
   const { totalPrice } = location.state || {};
 
-  // Fetch Stripe clientSecret
-  // Fetch Stripe clientSecret via ApiService
+  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
   useEffect(() => {
     const fetchClientSecret = async () => {
       try {
-        const response = await fetch('/api/payment/create-intent', {
+        const response = await fetch(`${API_BASE_URL}/api/payment/create-intent`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -80,6 +80,7 @@ const PaymentPage = () => {
           },
           body: JSON.stringify({ amount: Math.round(totalPrice * 100) })
         });
+
 
         const data = await response.json();
         if (data.clientSecret) {
@@ -94,6 +95,7 @@ const PaymentPage = () => {
 
     if (totalPrice) fetchClientSecret();
   }, [totalPrice]);
+
 
 
   // Fetch user addresses
