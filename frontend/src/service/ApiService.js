@@ -215,6 +215,20 @@ export default class ApiService {
         return response.data;
     }
 
+    /** REVIEWS */
+    static async createReview(body) {
+        const response = await axios.post(`${this.BASE_URL}/reviews`, body, {
+            headers: this.getHeader()
+        });
+        return response.data;
+    }
+
+    static async getReviewsByProduct(productId) {
+        const response = await axios.get(`${this.BASE_URL}/reviews/product/${productId}`);
+        return response.data;
+    }
+
+
 
 
 
