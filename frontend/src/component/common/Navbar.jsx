@@ -1,6 +1,7 @@
 // src/component/common/Navbar.jsx
 import React, { useState, useEffect, useRef } from "react";
 import "../../style/navbar.css";
+import ApiService from "../../service/ApiService";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
   FaSearch,
@@ -88,6 +89,19 @@ const Navbar = () => {
     navigate("/"); // back to home
   };
 
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    if (!searchQuery.trim()) return;
+
+    try {
+      const response = await ApiService.searchProducts(searchQuery);
+      // store results in localStorage or navigate with state
+      navigate("/search", { state: { results: response.productList || [] } });
+    } catch (error) {
+      console.error("Search failed", error);
+    }
+  };
+
   return (
     <>
       <nav className="navbar">
@@ -109,7 +123,7 @@ const Navbar = () => {
 
         {/* Middle Section - Search Bar */}
         <div className="search-container">
-          <form className="search-form">
+          <form className="search-form" onSubmit={handleSearch}>
             <input
               type="text"
               placeholder="Search for products, brands and more"
@@ -127,8 +141,8 @@ const Navbar = () => {
           <button type="button" className="nav-icon bag-btn" onClick={handleWishlistClick}>
             <FaHeart />
             <NavLink to="/Wishlist" className="nav-icon ">
-            <span>Wishlist</span></NavLink>
-            
+              <span>Wishlist</span></NavLink>
+
           </button>
 
           <button type="button" className="nav-icon bag-btn" onClick={handleCartClick}>

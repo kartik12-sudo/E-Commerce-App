@@ -234,6 +234,14 @@ export default class ApiService {
         return Array.isArray(response.data) ? response.data : [];
     }
 
+    static async searchProducts(query) {
+        const response = await axios.get(`${this.BASE_URL}/product/search`, {
+            params: { query }
+        });
+        return response.data;
+    }
+
+
 
 
 

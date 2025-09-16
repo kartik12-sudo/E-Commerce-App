@@ -19,7 +19,7 @@ import LoginPage from './component/pages/LoginPage';
 import ProfilePage from './component/pages/ProfilePage';
 import AddressPage from './component/pages/AddressPage';
 import OtpPage from './component/pages/OtpPage';
-
+import SearchResultsPage from './component/pages/SearchResultsPage';
 import AdminPage from './component/admin/AdminPage';
 import AdminCategoryPage from './component/admin/AdminCategoryPage';
 import AddCategory from './component/admin/AddCategory';
@@ -52,6 +52,8 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/otp" element={<OtpPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/search" element={<SearchResultsPage />} />
+
 
           {/* Protected User Routes */}
           <Route path="/profile" element={<ProtectedRoute element={<ProfilePage />} />} />

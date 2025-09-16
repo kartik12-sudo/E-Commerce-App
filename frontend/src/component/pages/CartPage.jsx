@@ -66,12 +66,12 @@ const CartPage = () => {
                     <span>{item.quantity}</span>
                     <button onClick={() => incrementItem(item)}>+</button>
                   </div>
-                  <span>${item.price.toFixed(2)}</span>
+                  <span>₹{item.price.toFixed(2)}</span>
                 </div>
               </li>
             ))}
           </ul>
-          <h2>Total: ${totalPrice.toFixed(2)}</h2>
+          <h2>Total: ₹{totalPrice.toFixed(2)}</h2>
           <button className="checkout-button" onClick={handleCheckout}>
             Checkout
           </button>

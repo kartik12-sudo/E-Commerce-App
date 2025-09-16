@@ -68,7 +68,6 @@ public class ProductController {
         try {
             return ResponseEntity.ok(productService.deleteProduct(productId));
         } catch (DataIntegrityViolationException e) {
-            // ✅ now works because Response has @NoArgsConstructor
             Response errorResponse = new Response();
             errorResponse.setStatus(400);
             errorResponse.setMessage("Cannot delete product because it is linked to existing orders.");
@@ -91,8 +90,9 @@ public class ProductController {
         return ResponseEntity.ok(productService.getProductsByCategory(categoryId));
     }
 
+    // ✅ Renamed param "query" for clarity
     @GetMapping("/search")
-    public ResponseEntity<Response> searchForProduct(@RequestParam String searchValue) {
-        return ResponseEntity.ok(productService.searchProduct(searchValue));
+    public ResponseEntity<Response> searchForProduct(@RequestParam("query") String query) {
+        return ResponseEntity.ok(productService.searchProduct(query));
     }
 }

@@ -17,6 +17,9 @@ public interface ProductRepo extends JpaRepository<Product, Long> {
 
     List<Product> findByNameContainingIgnoreCase(String name);
 
-    @Query("SELECT p FROM Product p WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    List<Product> findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(String name, String description);
+
+    @Query("SELECT p FROM Product p WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
+           "OR LOWER(p.description) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     List<Product> searchByKeyword(@Param("keyword") String keyword);
 }
