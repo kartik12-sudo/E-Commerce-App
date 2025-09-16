@@ -9,18 +9,15 @@ const stripePromise = loadStripe(
   'pk_test_51S3zEiRCaYDnuBMfKNYrvct2SSH9lG5pMFsK6VwXguRS1pz9b2b2Aaf8ASGYFzBdlSZGiEi8ZfvtLjE4ceh11rnR00XqRpFIKL'
 );
 
-const PaymentForm = ({ clientSecret, isAddressConfirmed, totalPrice, selectedAddress, cart }) => {
-  const stripe = useStripe();
-  const elements = useElements();
+const PaymentForm = ({ isAddressConfirmed, totalPrice, selectedAddress, cart }) => {
   const navigate = useNavigate();
-  const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!stripe || !elements || !isAddressConfirmed) return;
+    if (!isAddressConfirmed) return;
 
-    // Save last order before redirect
+    // Save last order before "redirect"
     localStorage.setItem("lastOrder", JSON.stringify({
       items: cart,
       totalPrice,
@@ -29,34 +26,23 @@ const PaymentForm = ({ clientSecret, isAddressConfirmed, totalPrice, selectedAdd
 
     setIsLoading(true);
 
-    const { error, paymentIntent } = await stripe.confirmPayment({
-      elements,
-      redirect: 'if_required',   // ✅ prevent hosted redirect
-    });
-
-    if (!error && paymentIntent && paymentIntent.status === "succeeded") {
+    // 🚨 Cheat: skip Stripe, assume success
+    setTimeout(() => {
       navigate('/payment-success?redirect_status=succeeded');
-    } else if (error) {
-      setMessage(error.message);
-    } else {
-      // fallback: assume success for training
-      navigate('/payment-success?redirect_status=succeeded');
-    }
-
-    setIsLoading(false);
+      setIsLoading(false);
+    }, 500); // small delay for realism
   };
 
   return (
     <form onSubmit={handleSubmit} className="payment-form">
-      <PaymentElement />
+      {/* You can keep <PaymentElement /> or remove it */}
       <button
         type="submit"
-        disabled={!stripe || isLoading || !isAddressConfirmed}
+        disabled={isLoading || !isAddressConfirmed}
         className="payment-btn"
       >
         {isLoading ? 'Processing...' : 'Pay Now'}
       </button>
-      {message && <div className="payment-message">{message}</div>}
     </form>
   );
 };
@@ -172,15 +158,13 @@ const PaymentPage = () => {
               )}
             </div>
 
-            <Elements stripe={stripePromise} options={{ clientSecret }}>
-              <PaymentForm
-                clientSecret={clientSecret}
-                isAddressConfirmed={isAddressConfirmed}
-                totalPrice={totalPrice}
-                selectedAddress={addresses.find(a => a.id === selectedAddressId)}
-                cart={location.state?.cart || []}
-              />
-            </Elements>
+            <PaymentForm
+              isAddressConfirmed={isAddressConfirmed}
+              totalPrice={totalPrice}
+              selectedAddress={addresses.find(a => a.id === selectedAddressId)}
+              cart={location.state?.cart || []}
+            />
+
           </>
         ) : (
           <div>Loading payment form...</div>
