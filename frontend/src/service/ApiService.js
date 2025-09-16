@@ -228,6 +228,14 @@ export default class ApiService {
         return response.data;
     }
 
+    /** SALES */
+    static async getBestSellers() {
+        const response = await axios.get(`${this.BASE_URL}/sales/best-sellers`);
+        return Array.isArray(response.data) ? response.data : [];
+    }
+
+
+
 
 
 

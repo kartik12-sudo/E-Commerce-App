@@ -1,73 +1,100 @@
 {
     "Accessories": [
         {
-            "Product": "Power Bank",
-            "Score": 0.6
+            "Product": "Tripods",
+            "Score": 1.0
+        },
+        {
+            "Product": "Power Banks",
+            "Score": 1.0
+        },
+        {
+            "Product": "Screen Protectors",
+            "Score": 0.88
         }
     ],
     "Audio Devices": [
         {
-            "Product": "Sony WH-1000XM5",
-            "Score": 0.6
+            "Product": "Samsung Galaxy Buds 3 Pro",
+            "Score": 1.0
+        },
+        {
+            "Product": "Apple HomePod Mini",
+            "Score": 1.0
+        },
+        {
+            "Product": "Anker Soundcore Motion+",
+            "Score": 1.0
         }
     ],
     "Drones & Cameras": [
         {
-            "Product": "DJI Mavic 3",
-            "Score": 0.6
-        },
-        {
-            "Product": "DJI Mini 3 Pro",
-            "Score": 0.6
+            "Product": "GoPro Hero 11",
+            "Score": 1.0
         },
         {
             "Product": "DJI Air 2S",
-            "Score": 0.6
+            "Score": 1.0
+        },
+        {
+            "Product": "Nikon Z7 II",
+            "Score": 1.0
         }
     ],
     "Laptops": [
         {
-            "Product": "MacBook Pro 16",
-            "Score": 0.6
-        },
-        {
-            "Product": "Dell XPS 15",
-            "Score": 0.6
+            "Product": "Asus ZenBook Duo",
+            "Score": 1.0
         },
         {
             "Product": "Lenovo ThinkPad X1 Carbon",
-            "Score": 0.6
+            "Score": 1.0
+        },
+        {
+            "Product": "Microsoft Surface Laptop 5",
+            "Score": 1.0
         }
     ],
-    "Smart Home": [],
+    "Smart Home": [
+        {
+            "Product": "Amazon Echo Dot 5",
+            "Score": 1.0
+        },
+        {
+            "Product": "Google Nest Hub",
+            "Score": 1.0
+        },
+        {
+            "Product": "Philips Hue Bulb",
+            "Score": 1.0
+        }
+    ],
     "Smartphones": [
         {
-            "Product": "iPhone 15 Pro",
-            "Score": 0.6
-        }
-    ],
-    "Speakers": [
-        {
-            "Product": "JBL Charge 5",
-            "Score": 0.6
+            "Product": "Samsung Galaxy S25",
+            "Score": 1.0
         },
         {
-            "Product": "Bose SoundLink Flex",
-            "Score": 0.6
+            "Product": "iPhone 16 Pro",
+            "Score": 0.88
         },
         {
-            "Product": "Marshall Emberton II",
-            "Score": 0.6
+            "Product": "OnePlus 13",
+            "Score": 0.88
         }
     ],
     "Tablets": [
         {
-            "Product": "iPad Pro 12.9",
-            "Score": 0.6
+            "Product": "Huawei MatePad Pro",
+            "Score": 1.0
         },
         {
-            "Product": "Samsung Galaxy Tab S9",
-            "Score": 0.6
+            "Product": "Realme Pad 2",
+            "Score": 1.0
+        },
+        {
+            "Product": "Oppo Pad 2",
+            "Score": 0.88
         }
     ]
 }

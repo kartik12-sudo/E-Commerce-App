@@ -12,7 +12,7 @@ const CategoryProductsPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [error, setError] = useState(null);
-  const [priceFilter, setPriceFilter] = useState(""); // ✅ state for price filter
+  const [priceFilter, setPriceFilter] = useState("");
   const itemsPerPage = 8;
 
   useEffect(() => {
@@ -21,14 +21,20 @@ const CategoryProductsPage = () => {
 
   const fetchProducts = async () => {
     try {
-      setError(null); // clear old errors
-      const response = await ApiService.getAllProductsByCategoryId(categoryId);
+      setError(null);
 
-      // Defensive: ensure productList exists
-      const allProducts = Array.isArray(response.productList)
-        ? response.productList
-        : [];
+      let allProducts = [];
+      if (categoryId === "14") {
+        // 🔥 Special: Best Sellers
+        allProducts = await ApiService.getBestSellers();
+      } else {
+        const response = await ApiService.getAllProductsByCategoryId(categoryId);
+        allProducts = Array.isArray(response.productList)
+          ? response.productList
+          : [];
+      }
 
+      // ✅ Always array from here
       setTotalPages(Math.ceil(allProducts.length / itemsPerPage));
       setProducts(
         allProducts.slice(
@@ -37,16 +43,17 @@ const CategoryProductsPage = () => {
         )
       );
     } catch (error) {
-      setProducts([]); // clear old products
+      setProducts([]);
       setError(
         error.response?.data?.message ||
-          error.message ||
-          "Unable to fetch products by category"
+        error.message ||
+        "Unable to fetch products"
       );
     }
   };
 
-  // ✅ Apply filter client-side
+
+  // ✅ Apply price filter
   const filteredProducts = products.filter(
     (p) => !priceFilter || p.price <= Number(priceFilter)
   );
@@ -88,4 +95,4 @@ const CategoryProductsPage = () => {
   );
 };
 
-export default CategoryProductsPage
+export default CategoryProductsPage;

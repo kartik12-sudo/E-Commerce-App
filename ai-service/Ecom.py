@@ -3,7 +3,7 @@ from datasets import Dataset
 from transformers import DistilBertTokenizerFast, DistilBertForSequenceClassification, Trainer, TrainingArguments
 from transformers import pipeline
 
-df = pd.read_excel("products_dataset_with_reviews.xlsx")
+df = pd.read_excel("Product_Reviews_Dataset.xlsx")
 
 df = df.dropna(subset=["Reviews"])  
 
