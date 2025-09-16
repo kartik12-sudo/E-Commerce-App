@@ -732,3 +732,11 @@
     gap: 10px;
   }
 }
+
+
+.loading-message {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #555;
+  padding: 20px;
+}

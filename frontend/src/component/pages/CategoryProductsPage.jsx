@@ -13,6 +13,8 @@ const CategoryProductsPage = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [error, setError] = useState(null);
   const [priceFilter, setPriceFilter] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const itemsPerPage = 8;
 
   useEffect(() => {
@@ -22,10 +24,11 @@ const CategoryProductsPage = () => {
   const fetchProducts = async () => {
     try {
       setError(null);
+      setLoading(true); // ✅ start loading
 
       let allProducts = [];
       if (categoryId === "14") {
-        // 🔥 Special: Best Sellers
+        // 🔥 Best Sellers
         allProducts = await ApiService.getBestSellers();
       } else {
         const response = await ApiService.getAllProductsByCategoryId(categoryId);
@@ -34,7 +37,6 @@ const CategoryProductsPage = () => {
           : [];
       }
 
-      // ✅ Always array from here
       setTotalPages(Math.ceil(allProducts.length / itemsPerPage));
       setProducts(
         allProducts.slice(
@@ -49,6 +51,8 @@ const CategoryProductsPage = () => {
         error.message ||
         "Unable to fetch products"
       );
+    } finally {
+      setLoading(false); // ✅ always stop loading
     }
   };
 
@@ -60,7 +64,9 @@ const CategoryProductsPage = () => {
 
   return (
     <div className="home">
-      {error ? (
+      {loading ? (
+        <p className="loading-message">⏳ Loading products, please wait...</p>
+      ) : error ? (
         <p className="error-message">{error}</p>
       ) : (
         <div>
@@ -93,6 +99,7 @@ const CategoryProductsPage = () => {
       )}
     </div>
   );
+
 };
 
 export default CategoryProductsPage;
