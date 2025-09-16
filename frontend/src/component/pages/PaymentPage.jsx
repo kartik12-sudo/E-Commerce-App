@@ -78,7 +78,7 @@ const PaymentPage = () => {
             'Content-Type': 'application/json',
             ...ApiService.getHeader()
           },
-          body: JSON.stringify({ amount: Math.round(totalPrice * 100) })
+          body: JSON.stringify({ amount: Math.round(totalPrice ) })
         });
 
 
