@@ -72,7 +72,7 @@ const PaymentPage = () => {
   useEffect(() => {
     const fetchClientSecret = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/api/payment/create-intent`, {
+        const response = await fetch(`${API_BASE_URL}/payment/create-intent`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
