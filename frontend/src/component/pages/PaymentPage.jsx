@@ -12,6 +12,7 @@ const stripePromise = loadStripe(
 const PaymentForm = ({ clientSecret, isAddressConfirmed, totalPrice, selectedAddress, cart }) => {
   const stripe = useStripe();
   const elements = useElements();
+  const navigate = useNavigate();   // ✅ fix: add this line
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -28,14 +29,17 @@ const PaymentForm = ({ clientSecret, isAddressConfirmed, totalPrice, selectedAdd
 
     setIsLoading(true);
 
-    const { error } = await stripe.confirmPayment({
+    const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
       confirmParams: {
         return_url: window.location.origin + '/payment-success',
       },
+      redirect: 'if_required',   // <-- stops external redirect
     });
 
-    if (error) {
+    if (!error && paymentIntent && paymentIntent.status === "succeeded") {
+      navigate('/payment-success?redirect_status=succeeded');  // ✅ now works
+    } else if (error) {
       setMessage(error.message);
     }
 
@@ -78,9 +82,8 @@ const PaymentPage = () => {
             'Content-Type': 'application/json',
             ...ApiService.getHeader()
           },
-          body: JSON.stringify({ amount: Math.round(totalPrice ) })
+          body: JSON.stringify({ amount: Math.round(totalPrice) })
         });
-
 
         const data = await response.json();
         if (data.clientSecret) {
@@ -95,8 +98,6 @@ const PaymentPage = () => {
 
     if (totalPrice) fetchClientSecret();
   }, [totalPrice]);
-
-
 
   // Fetch user addresses
   useEffect(() => {
@@ -167,7 +168,6 @@ const PaymentPage = () => {
                 >
                   Confirm Selected Address
                 </button>
-
               )}
             </div>
 
@@ -180,7 +180,6 @@ const PaymentPage = () => {
                 cart={location.state?.cart || []}
               />
             </Elements>
-
           </>
         ) : (
           <div>Loading payment form...</div>
