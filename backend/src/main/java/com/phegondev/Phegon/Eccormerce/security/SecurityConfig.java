@@ -36,11 +36,14 @@ public class SecurityConfig {
                                                                 "/product/**", "/api/product/**",
                                                                 "/order/**", "/api/order/**",
                                                                 "/sales/**", "/api/sales/**",
-                                                                "/payment/**", "/api/payment/**")
-                                                .permitAll()
-                                                .anyRequest().authenticated()
+                                                                "/payment/**", "/api/payment/**",
+                                                                "/reviews/product/**", "/api/reviews/product/**" // 👈
+                                                                                                                 // allow
+                                                                                                                 // public
+                                                                                                                 // GET
+                                                ).permitAll()
+                                                .anyRequest().authenticated())
 
-                                )
                                 .sessionManagement(manager -> manager
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
