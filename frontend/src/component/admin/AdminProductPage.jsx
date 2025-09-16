@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../style/adminProduct.css";
 import Pagination from "../common/Pagination";
@@ -17,7 +17,8 @@ const AdminProductPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
 
-  const fetchProducts = async () => {
+  // ✅ Wrap fetchProducts with useCallback
+  const fetchProducts = useCallback(async () => {
     try {
       const response = await ApiService.getAllProducts();
       const productList = response.productList || [];
@@ -28,18 +29,17 @@ const AdminProductPage = () => {
           currentPage * itemsPerPage
         )
       );
-    } catch (error) {
+    } catch (err) {
       setError(
-        error.response?.data?.message ||
-        error.message ||
-        "Unable to fetch products"
+        err.response?.data?.message || err.message || "Unable to fetch products"
       );
     }
-  };
+  }, [currentPage, itemsPerPage]);
 
+  // ✅ Use fetchProducts as dependency
   useEffect(() => {
     fetchProducts();
-  }, [currentPage]);
+  }, [fetchProducts]);
 
   const handleEdit = (id) => {
     navigate(`/admin/edit-product/${id}`);
@@ -58,11 +58,9 @@ const AdminProductPage = () => {
       fetchProducts(); // Refresh products after deletion
       setIsModalOpen(false);
       setProductToDelete(null);
-    } catch (error) {
+    } catch (err) {
       setError(
-        error.response?.data?.message ||
-        error.message ||
-        "Unable to delete product"
+        err.response?.data?.message || err.message || "Unable to delete product"
       );
       setIsModalOpen(false);
       setProductToDelete(null);

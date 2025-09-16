@@ -1,40 +1,41 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import ApiService from "../../service/ApiService";
 import '../../style/productDetailsPage.css';
 
 const ProductDetailsPage = () => {
-    const {productId} = useParams();
-    const {cart, dispatch} = useCart();
+    const { productId } = useParams();
+    const { cart, dispatch } = useCart();
     const [product, setProduct] = useState(null);
-    const [reviews, setReviews] = useState([]); // reviews list
+    const [reviews, setReviews] = useState([]);
     const [rating, setRating] = useState(0);
     const [reviewText, setReviewText] = useState("");
     const [hoverRating, setHoverRating] = useState(0);
 
-    useEffect(()=>{
-        fetchProduct();
-    }, [productId]);
-
-    const fetchProduct = async () => {
+    // fetchProduct wrapped in useCallback to fix ESLint warning
+    const fetchProduct = useCallback(async () => {
         try {
             const response = await ApiService.getProductById(productId);
             setProduct(response.product);
         } catch (error) {
-            console.log(error.message || error)
+            console.log(error.message || error);
         }
-    }
+    }, [productId]);
+
+    useEffect(() => {
+        fetchProduct();
+    }, [fetchProduct]);
 
     const addToCart = () => {
         if (product) {
-            dispatch({type: 'ADD_ITEM', payload: product});   
+            dispatch({ type: 'ADD_ITEM', payload: product });
         }
     }
 
     const incrementItem = () => {
-        if(product){
-            dispatch({type: 'INCREMENT_ITEM', payload: product});
+        if (product) {
+            dispatch({ type: 'INCREMENT_ITEM', payload: product });
         }
     }
 
@@ -42,9 +43,9 @@ const ProductDetailsPage = () => {
         if (product) {
             const cartItem = cart.find(item => item.id === product.id);
             if (cartItem && cartItem.quantity > 1) {
-                dispatch({type: 'DECREMENT_ITEM', payload: product}); 
+                dispatch({ type: 'DECREMENT_ITEM', payload: product });
             } else {
-                dispatch({type: 'REMOVE_ITEM', payload: product}); 
+                dispatch({ type: 'REMOVE_ITEM', payload: product });
             }
         }
     }
@@ -68,7 +69,7 @@ const ProductDetailsPage = () => {
 
     const cartItem = cart.find(item => item.id === product.id);
 
-    return(
+    return (
         <div className="product-detail">
             <img src={product?.imageUrl} alt={product?.name} />
             <h1>{product?.name}</h1>
@@ -81,7 +82,7 @@ const ProductDetailsPage = () => {
                     <span>{cartItem.quantity}</span>
                     <button onClick={incrementItem}>+</button>
                 </div>
-            ):(
+            ) : (
                 <button className="add-to-cart-btn" onClick={addToCart}>Add To Cart</button>
             )}
 
@@ -104,7 +105,7 @@ const ProductDetailsPage = () => {
                     </div>
                     <textarea 
                         value={reviewText}
-                        onChange={(e)=>setReviewText(e.target.value)}
+                        onChange={(e) => setReviewText(e.target.value)}
                         placeholder="Write your review..."
                     />
                     <button type="submit" className="submit-review-btn">Submit Review</button>
@@ -117,7 +118,7 @@ const ProductDetailsPage = () => {
                         reviews.map(r => (
                             <div key={r.id} className="review-item">
                                 <div className="review-stars">
-                                    {"★".repeat(r.rating)}{"☆".repeat(5-r.rating)}
+                                    {"★".repeat(r.rating)}{"☆".repeat(5 - r.rating)}
                                 </div>
                                 <p>{r.text}</p>
                             </div>

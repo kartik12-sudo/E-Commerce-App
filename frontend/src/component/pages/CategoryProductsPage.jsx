@@ -1,5 +1,4 @@
-// src/component/pages/CategoryProductsPage.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import ApiService from "../../service/ApiService";
 import ProductList from "../common/ProductList";
@@ -12,14 +11,11 @@ const CategoryProductsPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [error, setError] = useState(null);
-  const [priceFilter, setPriceFilter] = useState(""); // ✅ state for price filter
+  const [priceFilter, setPriceFilter] = useState(""); 
   const itemsPerPage = 8;
 
-  useEffect(() => {
-    fetchProducts();
-  }, [categoryId, currentPage]);
-
-  const fetchProducts = async () => {
+  // ✅ Wrap fetchProducts in useCallback
+  const fetchProducts = useCallback(async () => {
     try {
       setError(null); // clear old errors
       const response = await ApiService.getAllProductsByCategoryId(categoryId);
@@ -44,7 +40,11 @@ const CategoryProductsPage = () => {
           "Unable to fetch products by category"
       );
     }
-  };
+  }, [categoryId, currentPage]);
+
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]); // now safe and warning-free
 
   // ✅ Apply filter client-side
   const filteredProducts = products.filter(
@@ -57,7 +57,7 @@ const CategoryProductsPage = () => {
         <p className="error-message">{error}</p>
       ) : (
         <div>
-          {/* ✅ Price Filter Bar */}
+          {/* Price Filter Bar */}
           <div className="filter-bar">
             <label>
               Max Price: ₹
@@ -88,4 +88,4 @@ const CategoryProductsPage = () => {
   );
 };
 
-export default CategoryProductsPage
+export default CategoryProductsPage;

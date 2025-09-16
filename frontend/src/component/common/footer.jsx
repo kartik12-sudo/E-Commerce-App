@@ -1,9 +1,25 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { FaRobot, FaHeadphones } from "react-icons/fa";
 import "../../style/footer.css";
-import { FaRobot, FaHeadphones, FaLaptop } from "react-icons/fa";
+import ApiService from "../../service/ApiService";
 
 const Footer = () => {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await ApiService.getAllCategory();
+      setCategories(response.categoryList || []);
+    } catch (err) {
+      console.error("Failed to fetch categories", err);
+    }
+  };
+
   return (
     <footer className="electronics-footer">
       <div className="footer-container">
@@ -12,15 +28,13 @@ const Footer = () => {
             <FaRobot className="icon" /> Categories
           </h3>
           <ul>
-            <li><Link to="/">Smartphones</Link></li>
-            <li><Link to="/">Laptops</Link></li>
-            <li><Link to="/">Audio Devices</Link></li>
-            <li><Link to="/">Smart Home</Link></li>
-            <li><Link to="/">Accessories</Link></li>
+            {categories.map((category) => (
+              <li key={category.id}>
+                <Link to={`/category/${category.id}`}>{category.name}</Link>
+              </li>
+            ))}
           </ul>
         </div>
-
-        
 
         <div className="footer-section">
           <h3 className="footer-title">

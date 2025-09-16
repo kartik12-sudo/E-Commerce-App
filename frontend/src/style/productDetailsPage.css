@@ -12,6 +12,7 @@
     align-items: center;
     position: relative;
     overflow: hidden;
+    text-decoration: none;
 }
 
 .product-detail::before {
@@ -21,7 +22,6 @@
     left: 0;
     width: 100%;
     height: 5px;
-   
     border-radius: 8px 8px 0 0;
 }
 
@@ -57,6 +57,7 @@
     line-height: 1.5;
     margin: 0;
     padding: 0 10px;
+    text-decoration: none;
 }
 
 .product-detail .product-price {
@@ -134,6 +135,7 @@
     overflow: hidden;
     box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3);
     min-width: 45px;
+    text-decoration: none; /* Added to remove any underline */
 }
 
 .quantity-controls button::before {
@@ -151,6 +153,7 @@
 .quantity-controls button:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 15px rgba(99, 102, 241, 0.4);
+    text-decoration: none; /* Added to remove any underline on hover */
 }
 
 .quantity-controls button:hover::before {
@@ -177,6 +180,7 @@
     overflow: hidden;
     box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3);
     margin-top: 10px;
+    text-decoration: none; /* Added to remove any underline */
 }
 
 .product-detail .add-to-cart-btn::before {
@@ -194,6 +198,7 @@
 .product-detail .add-to-cart-btn:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+    text-decoration: none; /* Added to remove any underline on hover */
 }
 
 .product-detail .add-to-cart-btn:hover::before {
@@ -220,18 +225,30 @@
     align-items: center;
     background: linear-gradient(135deg, #3b82f6, #1d4ed8);
     color: white;
-    text-decoration: none;
+    text-decoration: none; /* This removes the underline */
     padding: 12px 20px;
     border-radius: 8px;
     font-weight: 600;
     transition: all 0.3s ease;
     margin-top: 15px;
     box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+    border: none; /* Added to ensure no border appears as underline */
+    cursor: pointer;
 }
 
 .product-detail .back-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 15px rgba(59, 130, 246, 0.4);
+    text-decoration: none; /* Ensures no underline on hover */
+}
+
+/* Remove underlines from all links inside product-detail */
+.product-detail a {
+    text-decoration: none;
+}
+
+.product-detail a:hover {
+    text-decoration: none;
 }
 
 /* Responsive design */
@@ -419,11 +436,13 @@
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
+    text-decoration: none ; 
 }
 
 .submit-review-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 12px rgba(67, 56, 202, 0.3);
+    text-decoration: none; /* Added to remove any underline on hover */
 }
 
 .review-list {

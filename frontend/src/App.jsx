@@ -1,6 +1,4 @@
 import PaymentSuccessPage from './component/pages/PaymentSuccessPage';
-
-import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ProtectedRoute, AdminRoute } from './service/Guard';
 import PaymentPage from './component/pages/PaymentPage';

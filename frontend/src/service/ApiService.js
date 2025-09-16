@@ -157,15 +157,6 @@ export default class ApiService {
 
 
 
-
-    /**ADDRESS */
-    static async saveAddress(body) {
-        const response = await axios.post(`${this.BASE_URL}/address/save`, body, {
-            headers: this.getHeader()
-        })
-        return response.data;
-    }
-
     /**ADDRESS */
     static async saveAddress(body) {
         const response = await axios.post(`${this.BASE_URL}/address/save`, body, {

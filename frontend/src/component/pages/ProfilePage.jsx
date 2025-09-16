@@ -101,7 +101,7 @@ const ProfilePage = () => {
             )}
 
             <button
-              className="profile-button"
+              className="profile-button add-new"
               onClick={() => navigate("/add-address")}
             >
               Add New Address

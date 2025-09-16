@@ -11,13 +11,12 @@ import {
   FaTv,
   FaVolumeUp,
   FaHeadphones,
-  FaArrowRight,
-  FaSearch,
+  
   FaChevronLeft,
   FaChevronRight
 } from "react-icons/fa";
 import { FiWatch } from "react-icons/fi";
-import ProductList from "../common/ProductList";
+
 import Pagination from "../common/Pagination";
 import ApiService from "../../service/ApiService";
 import "../../style/home.css";

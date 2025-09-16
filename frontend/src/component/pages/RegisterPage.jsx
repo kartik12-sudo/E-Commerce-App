@@ -5,7 +5,7 @@ import { toast, ToastContainer } from "react-toastify";
 import ApiService from "../../service/ApiService";
 import "react-toastify/dist/ReactToastify.css";
 import "../../style/register.css";
-import { FaArrowLeft, FaUser, FaEnvelope, FaPhone, FaLock } from "react-icons/fa";
+import { FaArrowLeft} from "react-icons/fa";
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
