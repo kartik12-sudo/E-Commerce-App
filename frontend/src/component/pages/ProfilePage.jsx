@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ApiService from "../../service/ApiService";
-import '../../style/profile.css';
+import "../../style/profile.css";
 import Pagination from "../common/Pagination";
 
 const ProfilePage = () => {
   const [userInfo, setUserInfo] = useState(null);
+  const [orders, setOrders] = useState([]); // ✅ separate state for orders
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -17,6 +18,7 @@ const ProfilePage = () => {
 
   useEffect(() => {
     fetchUserInfo();
+    fetchOrders(); // ✅ fetch orders separately
   }, []);
 
   const fetchUserInfo = async () => {
@@ -24,7 +26,20 @@ const ProfilePage = () => {
       const response = await ApiService.getLoggedInUserInfo();
       setUserInfo(response.user);
     } catch (error) {
-      setError(error.response?.data?.message || error.message || "Unable to fetch user info");
+      setError(
+        error.response?.data?.message ||
+          error.message ||
+          "Unable to fetch user info"
+      );
+    }
+  };
+
+  const fetchOrders = async () => {
+    try {
+      const response = await ApiService.getAllOrders();
+      setOrders(response.orderItemList || []); // ✅ adjust based on backend response shape
+    } catch (error) {
+      console.error("Unable to fetch orders", error);
     }
   };
 
@@ -36,7 +51,7 @@ const ProfilePage = () => {
         if (prev <= 0) return 6; // reset to 6
         return prev - 1;
       });
-    }, 2000); // 2 seconds = 1 day simulation
+    }, 2000); // 2 seconds = 1 simulated day
     return () => clearInterval(interval);
   }, [selectedOrder]);
 
@@ -44,9 +59,8 @@ const ProfilePage = () => {
     return <div>Loading...</div>;
   }
 
-  const orderItemList = userInfo.orderItemList || [];
-  const totalPages = Math.ceil(orderItemList.length / itemsPerPage);
-  const paginatedOrders = orderItemList.slice(
+  const totalPages = Math.ceil(orders.length / itemsPerPage);
+  const paginatedOrders = orders.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -59,9 +73,18 @@ const ProfilePage = () => {
         <p className="error-message">{error}</p>
       ) : (
         <div>
-          <p><strong>Name: </strong>{userInfo.name}</p>
-          <p><strong>Email: </strong>{userInfo.email}</p>
-          <p><strong>Phone Number: </strong>{userInfo.phoneNumber}</p>
+          <p>
+            <strong>Name: </strong>
+            {userInfo.name}
+          </p>
+          <p>
+            <strong>Email: </strong>
+            {userInfo.email}
+          </p>
+          <p>
+            <strong>Phone Number: </strong>
+            {userInfo.phoneNumber}
+          </p>
 
           {/* Addresses */}
           <div>
@@ -69,11 +92,26 @@ const ProfilePage = () => {
             {userInfo.addresses && userInfo.addresses.length > 0 ? (
               userInfo.addresses.map((addr) => (
                 <div key={addr.id} className="address-card">
-                  <p><strong>Street: </strong>{addr.street}</p>
-                  <p><strong>City: </strong>{addr.city}</p>
-                  <p><strong>State: </strong>{addr.state}</p>
-                  <p><strong>Zip Code: </strong>{addr.zipCode}</p>
-                  <p><strong>Country: </strong>{addr.country}</p>
+                  <p>
+                    <strong>Street: </strong>
+                    {addr.street}
+                  </p>
+                  <p>
+                    <strong>City: </strong>
+                    {addr.city}
+                  </p>
+                  <p>
+                    <strong>State: </strong>
+                    {addr.state}
+                  </p>
+                  <p>
+                    <strong>Zip Code: </strong>
+                    {addr.zipCode}
+                  </p>
+                  <p>
+                    <strong>Country: </strong>
+                    {addr.country}
+                  </p>
 
                   <div className="address-actions">
                     <button
@@ -85,7 +123,11 @@ const ProfilePage = () => {
                     <button
                       className="profile-button delete"
                       onClick={async () => {
-                        if (window.confirm("Are you sure you want to delete this address?")) {
+                        if (
+                          window.confirm(
+                            "Are you sure you want to delete this address?"
+                          )
+                        ) {
                           await ApiService.deleteAddress(addr.id);
                           fetchUserInfo();
                         }
@@ -112,13 +154,33 @@ const ProfilePage = () => {
           <h3>Order History</h3>
           <ul>
             {paginatedOrders.map((order) => (
-              <li key={order.id} onClick={() => { setSelectedOrder(order); setEta(6); }}>
-                <img src={order.product?.imageUrl} alt={order.product?.name} />
+              <li
+                key={order.id}
+                onClick={() => {
+                  setSelectedOrder(order);
+                  setEta(6);
+                }}
+              >
+                <img
+                  src={order.product?.imageUrl}
+                  alt={order.product?.name}
+                />
                 <div>
-                  <p><strong>Name: </strong>{order.product?.name}</p>
-                  <p><strong>Status: </strong>{order.status}</p>
-                  <p><strong>Quantity: </strong>{order.quantity}</p>
-                  <p><strong>Price: </strong>{order.price.toFixed(2)}</p>
+                  <p>
+                    <strong>Name: </strong>
+                    {order.product?.name}
+                  </p>
+                  <p>
+                    <strong>Status: </strong>
+                    {order.status}
+                  </p>
+                  <p>
+                    <strong>Quantity: </strong>
+                    {order.quantity}
+                  </p>
+                  <p>
+                    <strong>Price: </strong>${order.price.toFixed(2)}
+                  </p>
                 </div>
               </li>
             ))}
@@ -132,24 +194,43 @@ const ProfilePage = () => {
         </div>
       )}
 
-      {/* 🔹 Popup Modal with Address */}
+      {/* 🔹 Popup Modal with Order Details */}
       {selectedOrder && (
         <div className="modal-overlay">
           <div className="modal-content">
-            <button className="modal-close" onClick={() => setSelectedOrder(null)}>✖</button>
+            <button
+              className="modal-close"
+              onClick={() => setSelectedOrder(null)}
+            >
+              ✖
+            </button>
             <h3>📦 Order Details</h3>
-            <img src={selectedOrder.product?.imageUrl} alt={selectedOrder.product?.name} />
-            <p><strong>Name:</strong> {selectedOrder.product?.name}</p>
-            <p><strong>Status:</strong> {selectedOrder.status}</p>
-            <p><strong>Quantity:</strong> {selectedOrder.quantity}</p>
-            <p><strong>Price:</strong> ${selectedOrder.price.toFixed(2)}</p>
+            <img
+              src={selectedOrder.product?.imageUrl}
+              alt={selectedOrder.product?.name}
+            />
+            <p>
+              <strong>Name:</strong> {selectedOrder.product?.name}
+            </p>
+            <p>
+              <strong>Status:</strong> {selectedOrder.status}
+            </p>
+            <p>
+              <strong>Quantity:</strong> {selectedOrder.quantity}
+            </p>
+            <p>
+              <strong>Price:</strong> ${selectedOrder.price.toFixed(2)}
+            </p>
 
             {/* Address for the order */}
             {userInfo.addresses && userInfo.addresses.length > 0 && (
               <div className="modal-address">
                 <h4>📍 Shipping Address</h4>
                 <p>{userInfo.addresses[0].street}</p>
-                <p>{userInfo.addresses[0].city}, {userInfo.addresses[0].state} {userInfo.addresses[0].zipCode}</p>
+                <p>
+                  {userInfo.addresses[0].city}, {userInfo.addresses[0].state}{" "}
+                  {userInfo.addresses[0].zipCode}
+                </p>
                 <p>{userInfo.addresses[0].country}</p>
               </div>
             )}

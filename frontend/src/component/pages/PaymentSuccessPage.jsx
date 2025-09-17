@@ -1,6 +1,8 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
+import ApiService from "../../service/ApiService";
+
 import '../../style/PaymentSuccess.css';
 
 const PaymentSuccessPage = () => {
@@ -15,27 +17,48 @@ const PaymentSuccessPage = () => {
   const redirectStatus = params.get('redirect_status');
 
   useEffect(() => {
-    if (redirectStatus === 'succeeded') {
-      try {
-        // ✅ Get last order from localStorage
-        const savedOrder = JSON.parse(localStorage.getItem("lastOrder"));
+  if (redirectStatus === 'succeeded') {
+    try {
+      const savedOrder = JSON.parse(localStorage.getItem("lastOrder"));
 
-        if (savedOrder) {
-          setOrderDetails({
-            items: savedOrder.items || [],
-            totalPrice: savedOrder.totalPrice || 0,
-            shippingAddress: savedOrder.address || null,
-            etaDays: Math.floor(Math.random() * 5) + 2,
-          });
+      if (savedOrder) {
+        // ✅ Send order to backend
+        const placeOrder = async () => {
+          try {
+            await ApiService.createOrder({
+              items: savedOrder.items.map(item => ({
+                productId: item.id,
+                quantity: item.quantity,
+                price: item.price
+              })),
+              totalPrice: savedOrder.totalPrice,
+              addressId: savedOrder.address?.id,
+              paymentMethod: savedOrder.paymentMethod || "COD"
+            });
+          } catch (err) {
+            console.error("Error placing order:", err);
+          }
+        };
 
-          dispatch({ type: 'CLEAR_CART' });
-          localStorage.removeItem("lastOrder");
-        }
-      } catch (err) {
-        console.error("Error retrieving order details:", err);
+        placeOrder();
+
+        // ✅ Update UI
+        setOrderDetails({
+          items: savedOrder.items || [],
+          totalPrice: savedOrder.totalPrice || 0,
+          shippingAddress: savedOrder.address || null,
+          etaDays: Math.floor(Math.random() * 5) + 2,
+        });
+
+        dispatch({ type: 'CLEAR_CART' });
+        localStorage.removeItem("lastOrder");
       }
+    } catch (err) {
+      console.error("Error retrieving order details:", err);
     }
-  }, [redirectStatus, dispatch]);
+  }
+}, [redirectStatus, dispatch]);
+
 
   return (
     <div className="payment-success-page">
