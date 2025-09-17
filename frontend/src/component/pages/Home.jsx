@@ -284,7 +284,7 @@ const Home = () => {
                   </div>
                   <div className="product-info">
                     <h4>{product.name}</h4>
-                    <p className="product-price">${product.price}</p>
+                    <p className="product-price">₹{product.price}</p>
                   </div>
                 </div>
               ))}
