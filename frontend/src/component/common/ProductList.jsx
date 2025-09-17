@@ -1,9 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import ApiService from "../../service/ApiService";
 import "../../style/productList.css";
 import { FaStar, FaHeart, FaCartPlus } from "react-icons/fa";
 import { formatPrice } from "../../utils/format"; // ✅ import helper
+import { toast } from "react-toastify";
 
 const ProductList = ({ products }) => {
   const { cart, dispatch } = useCart();
@@ -40,7 +42,19 @@ const ProductList = ({ products }) => {
             <div className="product-badge">
               {discount > 0 && `-${discount}%`}
             </div>
-            <button className="wishlist-btn">
+            <button
+              className="wishlist-btn"
+              title="Add to Wishlist" // ✅ shows text on hover
+              onClick={async (e) => {
+                e.preventDefault(); // ✅ avoid navigating when inside <Link>
+                try {
+                  const res = await ApiService.addToWishlist(product.id);
+                  toast.success(res.message || "Added to wishlist ❤️");
+                } catch (err) {
+                  toast.error(err.response?.data?.message || "Failed to add to wishlist");
+                }
+              }}
+            >
               <FaHeart />
             </button>
             <Link to={`/product/${product.id}`}>

@@ -163,6 +163,32 @@ export default class ApiService {
         return response.data;
     }
 
+    /** WISHLIST */
+    static async addToWishlist(productId) {
+        const response = await axios.post(
+            `${this.BASE_URL}/wishlist/add/${productId}`,
+            {},
+            { headers: this.getHeader() }
+        );
+        return response.data;
+    }
+
+    static async removeFromWishlist(productId) {
+        const response = await axios.delete(
+            `${this.BASE_URL}/wishlist/remove/${productId}`,
+            { headers: this.getHeader() }
+        );
+        return response.data;
+    }
+
+    static async getMyWishlist() {
+        const response = await axios.get(`${this.BASE_URL}/wishlist/my`, {
+            headers: this.getHeader()
+        });
+        return response.data;
+    }
+
+
 
 
 

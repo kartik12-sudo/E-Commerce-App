@@ -31,8 +31,8 @@ const Wishlist = ({ wishlistItems, onRemoveFromWishlist, onAddToCart }) => {
       ) : (
         <div className="wishlist-grid">
           {wishlistItems.map((product) => {
-            const basePrice = Number(product.price) || 0;
-            const discount = Number(product.discount) || 0;
+            const basePrice = Number(product.productPrice) || 0;
+            const discount = Number(product.discount || 0);
             const discountedPrice = basePrice * (1 - discount / 100);
 
             return (
@@ -40,42 +40,28 @@ const Wishlist = ({ wishlistItems, onRemoveFromWishlist, onAddToCart }) => {
                 <div className="product-badge">
                   {discount > 0 && `-${discount}%`}
                 </div>
-                <button 
+                <button
                   className="wishlist-remove-btn"
                   onClick={() => onRemoveFromWishlist(product)}
                 >
                   <FaHeart />
                 </button>
-                <Link to={`/product/${product.id}`} className="product-link">
+                <Link to={`/product/${product.productId}`} className="product-link">
                   <img
-                    src={product.imageUrl}
-                    alt={product.name}
+                    src={product.productImageUrl}
+                    alt={product.productName}
                     className="wishlist-image"
                   />
                   <div className="wishlist-info">
-                    <h3 className="wishlist-product-title">{product.name}</h3>
-                    <p className="wishlist-product-desc">
-                      {product.description
-                        ? product.description.substring(0, 60) + "..."
-                        : ""}
-                    </p>
-                    <div className="wishlist-rating">
-                      {[...Array(5)].map((_, i) => (
-                        <FaStar
-                          key={i}
-                          className={i < product.rating ? "star-filled" : "star-empty"}
-                        />
-                      ))}
-                      <span>({product.reviewCount || 0})</span>
-                    </div>
+                    <h3 className="wishlist-product-title">{product.productName}</h3>
                     <div className="wishlist-price">
                       {discount > 0 && (
                         <span className="original-price">
-                          {formatPrice(basePrice)}
+                          ₹{basePrice.toLocaleString("en-IN")}
                         </span>
                       )}
                       <span className="current-price">
-                        {formatPrice(discountedPrice)}
+                        ₹{discountedPrice.toLocaleString("en-IN")}
                       </span>
                     </div>
                   </div>
@@ -90,6 +76,7 @@ const Wishlist = ({ wishlistItems, onRemoveFromWishlist, onAddToCart }) => {
             );
           })}
         </div>
+
       )}
     </div>
   );

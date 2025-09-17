@@ -42,4 +42,9 @@ public class Response {
 
     private OrderDto order;
     private List<OrderDto> orderList;
+
+    // ✅ Add this for Wishlist / Cart / anything generic
+    private Object data;
+    private List<WishlistDto> wishlistList;
+
 }

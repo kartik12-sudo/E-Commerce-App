@@ -140,10 +140,9 @@ const Navbar = () => {
         <div className="nav-right">
           <button type="button" className="nav-icon bag-btn" onClick={handleWishlistClick}>
             <FaHeart />
-            <NavLink to="/Wishlist" className="nav-icon ">
-              <span>Wishlist</span></NavLink>
-
+            <span>Wishlist</span>
           </button>
+
 
           <button type="button" className="nav-icon bag-btn" onClick={handleCartClick}>
             <FaShoppingBag />

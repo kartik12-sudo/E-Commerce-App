@@ -30,7 +30,7 @@ import EditProductPage from './component/admin/EditProductPage';
 import AdminOrdersPage from './component/admin/AdminOrderPage';
 import AdminOrderDetailsPage from './component/admin/AdminOrderDetailsPage';
 import ShopPage from './component/pages/ShopPage';
-
+import WishlistPage from './component/pages/WishlistPage';
 import AboutPage from './component/pages/AboutPage';
 import BlogPage from './component/pages/BlogPage';
 
@@ -53,6 +53,7 @@ function App() {
           <Route path="/otp" element={<OtpPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/search" element={<SearchResultsPage />} />
+          <Route path="/wishlist" element={<ProtectedRoute element={<WishlistPage />} />} />
 
 
           {/* Protected User Routes */}
