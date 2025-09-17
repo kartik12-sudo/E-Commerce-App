@@ -155,6 +155,15 @@ export default class ApiService {
         return response.data;
     }
 
+    /** USER'S OWN ORDERS */
+    static async getMyOrders() {
+        const response = await axios.get(`${this.BASE_URL}/order/my-orders`, {
+            headers: this.getHeader()
+        });
+        return response.data;
+    }
+
+
 
 
 

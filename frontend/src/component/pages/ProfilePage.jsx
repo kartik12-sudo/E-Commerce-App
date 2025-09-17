@@ -28,20 +28,21 @@ const ProfilePage = () => {
     } catch (error) {
       setError(
         error.response?.data?.message ||
-          error.message ||
-          "Unable to fetch user info"
+        error.message ||
+        "Unable to fetch user info"
       );
     }
   };
 
   const fetchOrders = async () => {
     try {
-      const response = await ApiService.getAllOrders();
-      setOrders(response.orderItemList || []); // ✅ adjust based on backend response shape
+      const response = await ApiService.getMyOrders();
+      setOrders(response.orderItemList || []); // ✅ response from backend has orderItemList
     } catch (error) {
       console.error("Unable to fetch orders", error);
     }
   };
+
 
   // ETA countdown simulation
   useEffect(() => {

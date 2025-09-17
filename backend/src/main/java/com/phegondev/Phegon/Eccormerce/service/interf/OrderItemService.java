@@ -18,4 +18,7 @@ public interface OrderItemService {
                               LocalDateTime endDate,
                               Long itemId,
                               Pageable pageable);
+
+    // 👇 New method for fetching logged-in user's orders
+    Response getOrdersForUser(Long userId);
 }
