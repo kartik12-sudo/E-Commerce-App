@@ -43,8 +43,7 @@ const AdminOrderDetailsPage = () => {
         selectedStatus[orderItemId]
       );
       toast.success("Order item status updated ✅");
-      // 🔄 Refresh details so the new status shows immediately
-      fetchOrderDetails(itemId);
+      fetchOrderDetails(itemId); // refresh status
     } catch (error) {
       toast.error(
         error.response?.data?.message ||
@@ -58,108 +57,117 @@ const AdminOrderDetailsPage = () => {
     <div className="order-details-page">
       <h2>Order Details</h2>
       {orderItems.length ? (
-        orderItems.map((orderItem) => (
-          <div key={orderItem.id} className="order-item-details">
-            <div className="info">
-              <h3>Order Information</h3>
-              <p>
-                <strong>Order Item ID:</strong> {orderItem.id}
-              </p>
-              <p>
-                <strong>Quantity:</strong> {orderItem.quantity}
-              </p>
-              <p>
-                <strong>Total Price:</strong> {orderItem.price}
-              </p>
-              <p>
-                <strong>Order Status:</strong> {orderItem.status}
-              </p>
-              <p>
-                <strong>Date Ordered:</strong>{" "}
-                {new Date(orderItem.createdAt).toLocaleDateString()}
-              </p>
-            </div>
+        orderItems.map((orderItem) => {
+          const addr =
+            orderItem.user.addresses && orderItem.user.addresses.length > 0
+              ? orderItem.user.addresses[0]
+              : null;
 
-            <div className="info">
-              <h3>User Information</h3>
-              <p>
-                <strong>Name:</strong> {orderItem.user.name}
-              </p>
-              <p>
-                <strong>Email:</strong> {orderItem.user.email}
-              </p>
-              <p>
-                <strong>Phone:</strong> {orderItem.user.phoneNumber}
-              </p>
-              <p>
-                <strong>Role:</strong> {orderItem.user.role}
-              </p>
-
+          return (
+            <div key={orderItem.id} className="order-item-details">
               <div className="info">
-                <h3>Delivery Address</h3>
+                <h3>Order Information</h3>
                 <p>
-                  <strong>Country:</strong>{" "}
-                  {orderItem.user.address?.country || "N/A"}
+                  <strong>Order Item ID:</strong> {orderItem.id}
                 </p>
                 <p>
-                  <strong>State:</strong>{" "}
-                  {orderItem.user.address?.state || "N/A"}
+                  <strong>Quantity:</strong> {orderItem.quantity}
                 </p>
                 <p>
-                  <strong>City:</strong> {orderItem.user.address?.city || "N/A"}
+                  <strong>Total Price:</strong> {orderItem.price}
                 </p>
                 <p>
-                  <strong>Street:</strong>{" "}
-                  {orderItem.user.address?.street || "N/A"}
+                  <strong>Order Status:</strong> {orderItem.status}
                 </p>
                 <p>
-                  <strong>Zip Code:</strong>{" "}
-                  {orderItem.user.address?.zipcode || "N/A"}
+                  <strong>Date Ordered:</strong>{" "}
+                  {new Date(orderItem.createdAt).toLocaleDateString()}
                 </p>
               </div>
-            </div>
 
-            <div>
-              <h2>Product Information</h2>
-              <img
-                src={orderItem.product.imageUrl}
-                alt={orderItem.product.name}
-              />
-              <p>
-                <strong>Name:</strong> {orderItem.product.name}
-              </p>
-              <p>
-                <strong>Description:</strong> {orderItem.product.description}
-              </p>
-              <p>
-                <strong>Price:</strong> {orderItem.product.price}
-              </p>
-            </div>
+              <div className="info">
+                <h3>User Information</h3>
+                <p>
+                  <strong>Name:</strong> {orderItem.user.name}
+                </p>
+                <p>
+                  <strong>Email:</strong> {orderItem.user.email}
+                </p>
+                <p>
+                  <strong>Phone:</strong> {orderItem.user.phoneNumber}
+                </p>
+                <p>
+                  <strong>Role:</strong> {orderItem.user.role}
+                </p>
 
-            <div className="status-change">
-              <h4>Change Status</h4>
-              <select
-                className="status-option"
-                value={selectedStatus[orderItem.id] || orderItem.status}
-                onChange={(e) =>
-                  handleStatusChange(orderItem.id, e.target.value)
-                }
-              >
-                {OrderStatus.map((status) => (
-                  <option key={status} value={status}>
-                    {status}
-                  </option>
-                ))}
-              </select>
-              <button
-                className="update-status-button"
-                onClick={() => handleSubmitStatusChange(orderItem.id)}
-              >
-                Update Status
-              </button>
+                <div className="info">
+                  <h3>Delivery Address</h3>
+                  {addr ? (
+                    <>
+                      <p>
+                        <strong>Country:</strong> {addr.country}
+                      </p>
+                      <p>
+                        <strong>State:</strong> {addr.state}
+                      </p>
+                      <p>
+                        <strong>City:</strong> {addr.city}
+                      </p>
+                      <p>
+                        <strong>Street:</strong> {addr.street}
+                      </p>
+                      <p>
+                        <strong>Zip Code:</strong> {addr.zipcode}
+                      </p>
+                    </>
+                  ) : (
+                    <p>No address available</p>
+                  )}
+                </div>
+              </div>
+
+              <div>
+                <h2>Product Information</h2>
+                <img
+                  src={orderItem.product.imageUrl}
+                  alt={orderItem.product.name}
+                />
+                <p>
+                  <strong>Name:</strong> {orderItem.product.name}
+                </p>
+                <p>
+                  <strong>Description:</strong> {orderItem.product.description}
+                </p>
+                <p>
+                  <strong>Price:</strong> {orderItem.product.price}
+                </p>
+              </div>
+
+              <div className="status-change">
+                <h4>Change Status</h4>
+                <select
+                  className="status-option"
+                  value={selectedStatus[orderItem.id] || orderItem.status}
+                  onChange={(e) =>
+                    handleStatusChange(orderItem.id, e.target.value)
+                  }
+                >
+                  {OrderStatus.map((status) => (
+                    <option key={status} value={status}>
+                      {status}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  className="update-status-button"
+                  onClick={() => handleSubmitStatusChange(orderItem.id)}
+                >
+                  Update Status
+                </button>
+              </div>
             </div>
-          </div>
-        ))
+          );
+        })
       ) : (
         <p>Loading order details ....</p>
       )}

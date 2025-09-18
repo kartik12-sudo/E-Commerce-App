@@ -32,27 +32,27 @@ const AdminOrdersPage = () => {
 
         try {
             let response;
-            if(searchStatus){
+            if (searchStatus) {
                 response = await ApiService.getAllOrderItemsByStatus(searchStatus);
-            }else{
+            } else {
                 response = await ApiService.getAllOrders();
             }
             const orderList = response.orderItemList || [];
 
-            setTotalPages(Math.ceil(orderList.length/itemsPerPage));
+            setTotalPages(Math.ceil(orderList.length / itemsPerPage));
             setOrders(orderList);
-            setFilteredOrders(orderList.slice((currentPage -1) * itemsPerPage, currentPage * itemsPerPage));
+            setFilteredOrders(orderList.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage));
 
 
         } catch (error) {
             setError(error.response?.data?.message || error.message || 'unable to fetch orders')
-            setTimeout(()=>{
+            setTimeout(() => {
                 setError('')
             }, 3000)
         }
     }
 
-    const handleFilterChange = (e) =>{
+    const handleFilterChange = (e) => {
         const filterValue = e.target.value;
         setStatusFilter(filterValue)
         setCurrentPage(1);
@@ -61,7 +61,7 @@ const AdminOrdersPage = () => {
             const filtered = orders.filter(order => order.status === filterValue);
             setFilteredOrders(filtered.slice(0, itemsPerPage));
             setTotalPages(Math.ceil(filtered.length / itemsPerPage));
-        }else{
+        } else {
             setFilteredOrders(orders.slice(0, itemsPerPage));
             setTotalPages(Math.ceil(orders.length / itemsPerPage));
         }
@@ -87,16 +87,16 @@ const AdminOrdersPage = () => {
                     <label >Filter By Status</label>
                     <select value={statusFilter} onChange={handleFilterChange}>
                         <option value="">All</option>
-                        {OrderStatus.map(status=>(
+                        {OrderStatus.map(status => (
                             <option key={status} value={status}>{status}</option>
                         ))}
                     </select>
                 </div>
                 <div className="searchStatus">
-                <label>Search By Status</label>
+                    <label>Search By Status</label>
                     <select value={searchStatus} onChange={handleSearchStatusChange}>
                         <option value="">All</option>
-                        {OrderStatus.map(status=>(
+                        {OrderStatus.map(status => (
                             <option key={status} value={status}>{status}</option>
                         ))}
                     </select>
@@ -117,26 +117,46 @@ const AdminOrdersPage = () => {
                 </thead>
 
                 <tbody>
-                    {filteredOrders.map(order => (
-                        <tr key={order.id}>
-                            <td>{order.id}</td>
-                            <td>{order.user.name}</td>
-                            <td>{order.status}</td>
-                            <td>${order.price.toFixed(2)}</td>
-                            <td>{new Date(order.createdAt).toLocaleDateString()}</td>
-                            <td>
-                                <button onClick={()=> handleOrderDetails(order.id)}>Details</button>
-                            </td>
-                        </tr>
-                    ))}
+                    {filteredOrders.map((order) => {
+                        const addr = order.user.addresses && order.user.addresses.length > 0
+                            ? order.user.addresses[0]
+                            : null;
+
+                        return (
+                            <tr key={order.id}>
+                                <td>{order.id}</td>
+                                <td>
+                                    <div>
+                                        <strong>{order.user.name}</strong>
+                                        <br />
+                                        {addr ? (
+                                            <span>
+                                                {addr.street}, {addr.city}, {addr.state} - {addr.zipCode},{" "}
+                                                {addr.country}
+                                            </span>
+                                        ) : (
+                                            <span>N/A</span>
+                                        )}
+                                    </div>
+                                </td>
+                                <td>{order.status}</td>
+                                <td>₹{order.price.toFixed(2)}</td>
+                                <td>{new Date(order.createdAt).toLocaleDateString()}</td>
+                                <td>
+                                    <button onClick={() => handleOrderDetails(order.id)}>Details</button>
+                                </td>
+                            </tr>
+                        );
+                    })}
                 </tbody>
+
 
             </table>
 
             <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={(page)=> setCurrentPage(page)}/>
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={(page) => setCurrentPage(page)} />
         </div>
     )
 }
